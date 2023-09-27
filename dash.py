@@ -18,6 +18,20 @@ def determinar_periodo(data):
 # Adiciona a coluna "Período" com base na data
 df["Período"] = df["Periodo Inicial"].apply(determinar_periodo)
 
+# Limpa os caracteres não numéricos e converte para números
+def limpar_valor(valor):
+    valor_limpo = valor.replace("R$", "").replace(".", "").replace(",", ".")
+    return float(valor_limpo)
+
+# Converte os valores de "Faturamento ST" para números
+df["Faturamento ST"] = df["Faturamento ST"].apply(limpar_valor)
+
+# Converte os valores de "Ressarcimento" para números
+df["Ressarcimento"] = df["Ressarcimento"].apply(limpar_valor)
+
+# Converte os valores de "% Ressarcimento" para números
+df["% Ressarcimento"] = df["% Ressarcimento"].str.rstrip('%').astype(float)
+
 # Título do dashboard
 st.title("Dashboard de Análise de Lojas")
 
@@ -63,7 +77,6 @@ for i, col in enumerate(["Faturamento ST", "Ressarcimento", "% Ressarcimento"]):
 
 st.pyplot(fig)
 
-
 # Resumo geral
 if filtro_geral:
     st.subheader("Resumo Geral")
@@ -82,5 +95,4 @@ if filtro_geral:
         ax2[i].bar(df_filtrado["Loja"], df_filtrado[col])
         ax2[i].set_ylabel(col)
         ax2[i].set_title(f"Comparação entre Lojas - {col}")
-        ax2[i].tick_params(axis="x", rotation=45)
-    st.pyplot(fig2)
+        ax2[i

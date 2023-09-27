@@ -26,29 +26,32 @@ total_container = st.container()
 total_container.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
 total_block1, total_block2, total_block3, total_block4 = st.columns(4)
 
+# Estilo para centralizar e formatar os blocos
+block_style = "display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border: 2px solid #FF6400; padding: 10px; font-size: 20px;"
+
 # Bloco de Faturamento ST
 with total_block1:
     st.subheader("Faturamento ST")
     total_faturamento_st = dados_lojas_selecionadas["Faturamento ST"].sum()
-    st.markdown(f'<div style="text-align:center">{total_faturamento_st:,.2f}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="{block_style}">{total_faturamento_st:,.2f}</div>', unsafe_allow_html=True)
 
 # Bloco de Ressarcimento
 with total_block2:
     st.subheader("Ressarcimento")
     total_ressarcimento = dados_lojas_selecionadas["Ressarcimento"].sum()
-    st.markdown(f'<div style="text-align:center">{total_ressarcimento:,.2f}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="{block_style}">{total_ressarcimento:,.2f}</div>', unsafe_allow_html=True)
 
 # Bloco de Complemento
 with total_block3:
     st.subheader("Complemento")
     total_complemento = dados_lojas_selecionadas["Complemento"].sum()
-    st.markdown(f'<div style="text-align:center">{total_complemento:,.2f}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="{block_style}">{total_complemento:,.2f}</div>', unsafe_allow_html=True)
 
 # Bloco de Diferença Ressarcimento - Complemento
 with total_block4:
     st.subheader("Diferença Ressarcimento - Complemento")
     diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
-    st.markdown(f'<div style="text-align:center">{diferenca_ressarcimento_complemento:,.2f}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="{block_style}">{diferenca_ressarcimento_complemento:,.2f}</div>', unsafe_allow_html=True)
 
 # Adicionar espaço em branco entre os blocos
 st.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
@@ -71,4 +74,4 @@ st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Ressarcimento"] - dados
 
 # Mostrar a média de ressarcimento
 media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean()
-st.write(f"Média % Ressarcimento: {media_percentual_ressarcimento:.2%}")
+st.markdown(f'<div style="{block_style}">Média % Ressarcimento: {media_percentual_ressarcimento:.2%}</div>', unsafe_allow_html=True)

@@ -1,8 +1,12 @@
 import streamlit as st
 import pandas as pd
 
-# Exibir o logotipo
-st.image("farma.png", use_column_width=False, width=300)
+# Criar um container centralizado para os blocos de total
+total_container = st.container()
+
+# Exibir o logotipo centralizado
+with total_container:
+    st.image("farma.png", use_column_width=False, width=300, caption="Logo")
 
 # Definir o CSS personalizado
 st.markdown(
@@ -33,28 +37,41 @@ lojas_selecionadas = st.multiselect("Selecione as lojas:", lojas, default=lojas,
 # Filtrar dados das lojas selecionadas
 dados_lojas_selecionadas = df[df["Loja"].isin(lojas_selecionadas)]
 
-# Resumo Geral
-st.write("Resumo Geral:")
+# Organizar os blocos de total em uma grade
+total_block1, total_block2, total_block3, total_block4 = st.columns(4)
 
 # Bloco de Total Faturamento ST
-st.subheader("Total Faturamento ST")
-total_faturamento_st = dados_lojas_selecionadas["Faturamento ST"].sum()
-st.write(f"R$ {total_faturamento_st:,.2f}")
+with total_block1:
+    st.subheader("Total Faturamento ST")
+    total_faturamento_st = dados_lojas_selecionadas["Faturamento ST"].sum()
+    st.write(f"R$ {total_faturamento_st:,.2f}")
+
+# Espaço em branco entre os blocos
+st.empty()
 
 # Bloco de Total Ressarcimento
-st.subheader("Total Ressarcimento")
-total_ressarcimento = dados_lojas_selecionadas["Ressarcimento"].sum()
-st.write(f"R$ {total_ressarcimento:,.2f}")
+with total_block2:
+    st.subheader("Total Ressarcimento")
+    total_ressarcimento = dados_lojas_selecionadas["Ressarcimento"].sum()
+    st.write(f"R$ {total_ressarcimento:,.2f}")
+
+# Espaço em branco entre os blocos
+st.empty()
 
 # Bloco de Total Complemento
-st.subheader("Total Complemento")
-total_complemento = dados_lojas_selecionadas["Complemento"].sum()
-st.write(f"R$ {total_complemento:,.2f}")
+with total_block3:
+    st.subheader("Total Complemento")
+    total_complemento = dados_lojas_selecionadas["Complemento"].sum()
+    st.write(f"R$ {total_complemento:,.2f}")
+
+# Espaço em branco entre os blocos
+st.empty()
 
 # Bloco de Ressarcimento - Complemento
-st.subheader("Ressarcimento - Complemento")
-diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
-st.write(f"R$ {diferenca_ressarcimento_complemento:,.2f}")
+with total_block4:
+    st.subheader("Ressarcimento - Complemento")
+    diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
+    st.write(f"R$ {diferenca_ressarcimento_complemento:,.2f}")
 
 # Gráfico de Barras (Faturamento ST)
 st.subheader("Gráfico de Barras (Faturamento ST)")

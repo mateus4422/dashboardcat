@@ -39,11 +39,6 @@ st.subheader("Total Ressarcimento")
 total_ressarcimento = dados_loja["Ressarcimento"].sum()
 st.write(f"R$ {total_ressarcimento:,.2f}")
 
-# Bloco de Média % Ressarcimento
-st.subheader("Média % Ressarcimento")
-media_percentual_ressarcimento = dados_loja["% Ressarcimento"].mean()
-st.write(f"{media_percentual_ressarcimento:.2%}")
-
 # Bloco de Média Ressarcimento (calculado)
 st.subheader("Média Ressarcimento (calculado)")
 media_ressarcimento_calculado = dados_loja["Media Ressarcimento"].mean()

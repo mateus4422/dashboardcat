@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # Centralize a logo "farma.png" no meio da página
-st.image("farma.png", use_column_width=False, caption="Logo", output_format="PNG", width=200, height=200, output_format="PNG")
+st.image("farma.png", use_column_width=False, caption="Logo", output_format="PNG", width=200, height=200)
 
 # Carregar os dados do Excel
 url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSulTerCVzXwOlraQucdzZsvxg-XGDZPA9xAXiMpFkQJ7GlfisoPoWzh3MrJEKCQPZYnDer7Cd0u5qE/pub?output=xlsx"

@@ -1,13 +1,9 @@
 import streamlit as st
 import pandas as pd
 
-# Exibir o logotipo centralizado com tamanho 200x200
-st.image("farma.png", use_column_width=False, caption="Logo", output_format="PNG", width=200)
-st.write(
-    "<div style='text-align: center;'>"
-    "<img src='farma.png' alt='Logo' width='200' height='200'>"
-    "</div>",
-    unsafe_allow_html=True,
+# Centralize a logo "farma.png" no meio da página
+st.image("farma.png", use_column_width=False, caption="Logo", output_format="PNG", width=200, height=200, output_format="PNG")
+
 )
 
 # Carregar os dados do Excel

@@ -67,3 +67,7 @@ st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Ressarcimento"], use_co
 # Gráfico de Barras (Complemento)
 st.subheader("Gráfico de Barras (Complemento)")
 st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Complemento"], use_container_width=True)
+
+# Gráfico de Barras (Ressarcimento - Complemento)
+st.subheader("Gráfico de Barras (Ressarcimento - Complemento)")
+st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Ressarcimento"] - dados_lojas_selecionadas.set_index("Loja")["Complemento"], use_container_width=True)

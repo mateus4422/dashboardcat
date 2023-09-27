@@ -18,12 +18,17 @@ if loja_selecionada == "Geral":
 else:
     dados_loja = df[df["Loja"] == loja_selecionada]  # Filtrar dados da loja selecionada
 
-# Resumo dos dados da loja selecionada
-st.write("Resumo da Loja Selecionada:")
-st.write(dados_loja)
-
 # Resumo Geral
 st.write("Resumo Geral:")
-st.write("Total Faturamento ST: R$", round(dados_loja["Faturamento ST"].sum(), 2))
-st.write("Total Ressarcimento: R$", round(dados_loja["Ressarcimento"].sum(), 2))
-st.write("Média % Ressarcimento:", round(dados_loja["% Ressarcimento"].mean() * 100, 2), "%")
+
+# Bloco de Total Faturamento ST
+st.subheader("Total Faturamento ST")
+st.write("R$", round(dados_loja["Faturamento ST"].sum(), 2))
+
+# Bloco de Total Ressarcimento
+st.subheader("Total Ressarcimento")
+st.write("R$", round(dados_loja["Ressarcimento"].sum(), 2))
+
+# Bloco de Média % Ressarcimento
+st.subheader("Média % Ressarcimento")
+st.write(round(dados_loja["% Ressarcimento"].mean() * 100, 2), "%")

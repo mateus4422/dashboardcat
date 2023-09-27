@@ -80,10 +80,11 @@ st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Ressarcimento"], use_co
 st.subheader("Gráfico de Barras (Complemento)")
 st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Complemento"], use_container_width=True)
 
-# Gráfico de Barras empilhadas (Ressarcimento e Complemento)
-st.subheader("Gráfico de Barras (Ressarcimento - Complemento)")
-fig, ax = plt.subplots()
-dados_lojas_selecionadas.set_index("Loja")[["Ressarcimento", "Complemento"]].plot(kind="bar", stacked=True, ax=ax)
-ax.set_xlabel("Loja")
-ax.set_ylabel("Valor")
-st.pyplot(fig)
+# Gráfico de Barras (Diferença Ressarcimento - Complemento)
+st.subheader("Gráfico de Barras (Diferença Ressarcimento - Complemento)")
+
+# Calcula a diferença entre Ressarcimento e Complemento para cada loja
+dados_lojas_selecionadas["Diferença Ressarcimento - Complemento"] = dados_lojas_selecionadas["Ressarcimento"] - dados_lojas_selecionadas["Complemento"]
+
+# Cria um gráfico de barras com a diferença
+st.bar_chart(dados_lojas_selecionadas[["Loja", "Diferença Ressarcimento - Complemento"]].set_index("Loja"), use_container_width=True)

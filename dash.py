@@ -1,27 +1,11 @@
 import streamlit as st
 import pandas as pd
 
-# Criar um container centralizado para os blocos de total
-total_container = st.container()
-
 # Exibir o logotipo centralizado
-with total_container:
-    st.image("farma.png", use_column_width=False, width=300, caption="Logo")
+st.image("farma.png", use_column_width=True, caption="Logo", output_format="PNG", width=300)
 
-# Definir o CSS personalizado
-st.markdown(
-    """
-    <style>
-        .st-ff6400 {
-            background-color: #FF6400;
-        }
-        .st-ff6400:hover {
-            background-color: #FF6400;
-        }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
+# Adicionar linhas separadoras sublinhadas
+st.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
 
 # Carregar os dados do Excel
 url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSulTerCVzXwOlraQucdzZsvxg-XGDZPA9xAXiMpFkQJ7GlfisoPoWzh3MrJEKCQPZYnDer7Cd0u5qE/pub?output=xlsx"
@@ -38,6 +22,8 @@ lojas_selecionadas = st.multiselect("Selecione as lojas:", lojas, default=lojas,
 dados_lojas_selecionadas = df[df["Loja"].isin(lojas_selecionadas)]
 
 # Organizar os blocos de total em uma grade
+total_container = st.container()
+total_container.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
 total_block1, total_block2, total_block3, total_block4 = st.columns(4)
 
 # Bloco de Total Faturamento ST
@@ -46,17 +32,11 @@ with total_block1:
     total_faturamento_st = dados_lojas_selecionadas["Faturamento ST"].sum()
     st.write(f"R$ {total_faturamento_st:,.2f}")
 
-# Espaço em branco entre os blocos
-st.empty()
-
 # Bloco de Total Ressarcimento
 with total_block2:
     st.subheader("Total Ressarcimento")
     total_ressarcimento = dados_lojas_selecionadas["Ressarcimento"].sum()
     st.write(f"R$ {total_ressarcimento:,.2f}")
-
-# Espaço em branco entre os blocos
-st.empty()
 
 # Bloco de Total Complemento
 with total_block3:
@@ -64,14 +44,14 @@ with total_block3:
     total_complemento = dados_lojas_selecionadas["Complemento"].sum()
     st.write(f"R$ {total_complemento:,.2f}")
 
-# Espaço em branco entre os blocos
-st.empty()
-
 # Bloco de Ressarcimento - Complemento
 with total_block4:
     st.subheader("Ressarcimento - Complemento")
     diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
     st.write(f"R$ {diferenca_ressarcimento_complemento:,.2f}")
+
+# Espaço em branco entre os blocos
+st.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
 
 # Gráfico de Barras (Faturamento ST)
 st.subheader("Gráfico de Barras (Faturamento ST)")

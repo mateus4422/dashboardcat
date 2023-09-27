@@ -1,5 +1,9 @@
 import streamlit as st
 import pandas as pd
+import locale
+
+# Define a formatação para Real Brasileiro
+locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 
 # Carregar os dados do Excel
 url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSulTerCVzXwOlraQucdzZsvxg-XGDZPA9xAXiMpFkQJ7GlfisoPoWzh3MrJEKCQPZYnDer7Cd0u5qE/pub?output=xlsx"
@@ -23,11 +27,11 @@ st.write("Resumo Geral:")
 
 # Bloco de Total Faturamento ST
 st.subheader("Total Faturamento ST")
-st.write("R$", round(dados_loja["Faturamento ST"].sum(), 2))
+st.write(locale.currency(dados_loja["Faturamento ST"].sum(), grouping=True))
 
 # Bloco de Total Ressarcimento
 st.subheader("Total Ressarcimento")
-st.write("R$", round(dados_loja["Ressarcimento"].sum(), 2))
+st.write(locale.currency(dados_loja["Ressarcimento"].sum(), grouping=True))
 
 # Bloco de Média % Ressarcimento
 st.subheader("Média % Ressarcimento")

@@ -29,35 +29,39 @@ total_block1, total_block2, total_block3, total_block4, total_block5 = st.column
 # Estilo para centralizar e formatar os valores
 value_style = "display: flex; justify-content: center; align-items: center; text-align: center; border: 2px solid #FF6400; padding: 10px; font-size: 20px;"
 
+# Função para inverter vírgulas e pontos
+def inverter_pontuacao(text):
+    return text.replace(",", "|").replace(".", ",").replace("|", ".")
+
 # Bloco de Faturamento ST
 with total_block1:
     st.subheader("Faturamento ST")
-    total_faturamento_st = dados_lojas_selecionadas["Faturamento ST"].sum()
-    st.markdown(f'<div style="{value_style}">{total_faturamento_st:,.2f}</div>', unsafe_allow_html=True)
+    total_faturamento_st = inverter_pontuacao(f"{total_faturamento_st:.2f}")
+    st.markdown(f'<div style="{value_style}">{total_faturamento_st}</div>', unsafe_allow_html=True)
 
 # Bloco de Ressarcimento
 with total_block2:
     st.subheader("Ressarcimento")
-    total_ressarcimento = dados_lojas_selecionadas["Ressarcimento"].sum()
-    st.markdown(f'<div style="{value_style}">{total_ressarcimento:,.2f}</div>', unsafe_allow_html=True)
+    total_ressarcimento = inverter_pontuacao(f"{total_ressarcimento:.2f}")
+    st.markdown(f'<div style="{value_style}">{total_ressarcimento}</div>', unsafe_allow_html=True)
 
 # Bloco de Complemento
 with total_block3:
     st.subheader("Complemento")
-    total_complemento = dados_lojas_selecionadas["Complemento"].sum()
-    st.markdown(f'<div style="{value_style}">{total_complemento:,.2f}</div>', unsafe_allow_html=True)
+    total_complemento = inverter_pontuacao(f"{total_complemento:.2f}")
+    st.markdown(f'<div style="{value_style}">{total_complemento}</div>', unsafe_allow_html=True)
 
 # Bloco de Diferença Ressarcimento - Complemento
 with total_block4:
-    st.subheader("Ressarcimento - Complemento")
-    diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
-    st.markdown(f'<div style="{value_style}">{diferenca_ressarcimento_complemento:,.2f}</div>', unsafe_allow_html=True)
+    st.subheader("Diferença Ressarcimento - Complemento")
+    diferenca_ressarcimento_complemento = inverter_pontuacao(f"{diferenca_ressarcimento_complemento:.2f}")
+    st.markdown(f'<div style="{value_style}">{diferenca_ressarcimento_complemento}</div>', unsafe_allow_html=True)
 
 # Bloco de Média % Ressarcimento
 with total_block5:
     st.subheader("Média % Ressarcimento")
-    media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean()
-    st.markdown(f'<div style="{value_style}">{media_percentual_ressarcimento:.2%}</div>', unsafe_allow_html=True)
+    media_percentual_ressarcimento = inverter_pontuacao(f"{media_percentual_ressarcimento:.2%}")
+    st.markdown(f'<div style="{value_style}">{media_percentual_ressarcimento}</div>', unsafe_allow_html=True)
 
 # Espaço em branco entre os blocos
 st.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)

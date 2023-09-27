@@ -1,5 +1,9 @@
 import streamlit as st
 import pandas as pd
+import locale
+
+# Configurar a formatação de moeda para o Real Brasileiro
+locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 
 # Carregar os dados do Excel
 url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSulTerCVzXwOlraQucdzZsvxg-XGDZPA9xAXiMpFkQJ7GlfisoPoWzh3MrJEKCQPZYnDer7Cd0u5qE/pub?output=xlsx"
@@ -24,14 +28,14 @@ st.write("Resumo Geral:")
 # Bloco de Total Faturamento ST
 st.subheader("Total Faturamento ST")
 total_faturamento_st = dados_loja["Faturamento ST"].sum()
-st.write(f"{total_faturamento_st} (Valores exatos da planilha)")
+st.write(f"{locale.currency(total_faturamento_st, grouping=True)} (Valores exatos da planilha)")
 
 # Bloco de Total Ressarcimento
 st.subheader("Total Ressarcimento")
 total_ressarcimento = dados_loja["Ressarcimento"].sum()
-st.write(f"{total_ressarcimento} (Valores exatos da planilha)")
+st.write(f"{locale.currency(total_ressarcimento, grouping=True)} (Valores exatos da planilha)")
 
 # Bloco de Média % Ressarcimento
 st.subheader("Média % Ressarcimento")
 media_percentual_ressarcimento = dados_loja["% Ressarcimento"].mean()
-st.write(f"{media_percentual_ressarcimento} (Valores exatos da planilha)")
+st.write(f"{media_percentual_ressarcimento:.2%} (Valores exatos da planilha)")

@@ -5,25 +5,34 @@ import pandas as pd
 url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSulTerCVzXwOlraQucdzZsvxg-XGDZPA9xAXiMpFkQJ7GlfisoPoWzh3MrJEKCQPZYnDer7Cd0u5qE/pubhtml"
 df = pd.read_html(url)[0]
 
-# Mostrar as colunas disponíveis
-st.write("Colunas Disponíveis:")
-st.write(df.columns)
+# Filtrar os dados para P1 e P2 com base nas datas
+df["Período Inicial"] = pd.to_datetime(df["Período Inicial"], dayfirst=True)
+df["Período Final"] = pd.to_datetime(df["Período Final"], dayfirst=True)
+p1_mask = (df["Período Inicial"] >= "2018-05-01") & (df["Período Final"] <= "2019-09-30")
+p2_mask = (df["Período Inicial"] >= "2019-09-01") & (df["Período Final"] <= "2020-10-31")
 
-# Sidebar com filtro de lojas
-st.sidebar.header("Filtro de Lojas")
-lojas = df["Loja"].unique()
-selected_lojas = st.sidebar.multiselect("Selecione as Lojas:", lojas)
+# Adicionar coluna "Período" com valores P1 e P2
+df["Período"] = ""
+df.loc[p1_mask, "Período"] = "P1"
+df.loc[p2_mask, "Período"] = "P2"
 
-# Filtro de dados com base nas lojas selecionadas
-filtered_df = df[df["Loja"].isin(selected_lojas)]
+# Filtros
+st.sidebar.title("Filtros")
+lojas = st.sidebar.multiselect("Lojas", df["Loja"].unique())
+geral = st.sidebar.checkbox("Geral")
 
-# Mostrar os dados filtrados
-st.write("Dados das Lojas Selecionadas:")
+# Filtrar dados com base nos filtros selecionados
+if geral:
+    filtered_df = df
+else:
+    filtered_df = df[df["Loja"].isin(lojas)]
+
+# Mostrar dados
+st.title("Dados das Lojas")
 st.write(filtered_df)
 
-# Resumo Geral
-st.header("Resumo Geral")
-st.write("Total de Faturamento ST:", filtered_df["Faturamento ST"].sum())
-st.write("Total de Ressarcimento:", filtered_df["Ressarcimento"].sum())
-st.write("% Ressarcimento Médio:", filtered_df["% Ressarcimento"].mean())
-st.write("Status Mais Comum:", filtered_df["Status"].mode().values[0])
+if geral:
+    st.title("Dados Gerais")
+    st.write("Faturamento ST Total:", filtered_df["Faturamento ST"].sum())
+    st.write("Ressarcimento Total:", filtered_df["Ressarcimento"].sum())
+    st.write("% Ressarcimento Total:", filtered_df["% Ressarcimento"].mean())

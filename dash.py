@@ -13,13 +13,10 @@ df.columns = ["Período Inicial", "Período Final", "Loja", "CNPJ", "Faturamento
 
 # Filtro de Lojas
 lojas = df["Loja"].unique()
-lojas_selecionadas = st.multiselect("Selecione as lojas:", lojas, default=["Geral"])
+lojas_selecionadas = st.multiselect("Selecione as lojas:", lojas)
 
 # Filtrar dados das lojas selecionadas
-if "Geral" in lojas_selecionadas:
-    dados_lojas_selecionadas = df  # Exibir todos os dados
-else:
-    dados_lojas_selecionadas = df[df["Loja"].isin(lojas_selecionadas)]  # Filtrar dados das lojas selecionadas
+dados_lojas_selecionadas = df[df["Loja"].isin(lojas_selecionadas)] if lojas_selecionadas else df
 
 # Resumo Geral
 st.write("Resumo Geral:")

@@ -2,7 +2,8 @@ import streamlit as st
 import pandas as pd
 
 # Exibir o logotipo centralizado com tamanho 200x200
-st.image("farma.png", use_column_width=False, caption="Logo", output_format="PNG", width=200)
+st.image("farma.png", use_column_width=False, caption="Logo", output_format="PNG", width=200, align="center")
+
 
 # Carregar os dados do Excel
 url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSulTerCVzXwOlraQucdzZsvxg-XGDZPA9xAXiMpFkQJ7GlfisoPoWzh3MrJEKCQPZYnDer7Cd0u5qE/pub?output=xlsx"
@@ -50,7 +51,7 @@ with total_block[2]:
 
 # Bloco de Diferença Ressarcimento - Complemento
 with total_block[3]:
-    st.subheader("Diferença Ressarcimento - Complemento")
+    st.subheader("Ressarcimento - Complemento")
     diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
     st.markdown(f'<div style="{value_style}">{formatar_valor(diferenca_ressarcimento_complemento)}</div>', unsafe_allow_html=True)
 

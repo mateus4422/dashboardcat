@@ -23,7 +23,6 @@ dados_lojas_selecionadas["% Ressarcimento"] = pd.to_numeric(dados_lojas_selecion
 
 # Organizar os blocos de total em uma grade
 total_container = st.container()
-total_container.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
 total_block = st.columns(5)
 
 # Estilo para centralizar e formatar os valores
@@ -64,9 +63,6 @@ media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mea
 with total_block[4]:
     st.subheader("Média % Ressarcimento")
     st.markdown(f'<div style="{value_style}">{media_percentual_ressarcimento:.1f}%</div>', unsafe_allow_html=True)
-
-# Espaço em branco entre os blocos
-st.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
 
 # Gráfico de Barras (Faturamento ST)
 st.subheader("Gráfico de Barras (Faturamento ST)")

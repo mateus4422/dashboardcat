@@ -18,6 +18,9 @@ lojas_selecionadas = st.multiselect("Selecione as lojas:", lojas, default=lojas,
 # Filtrar dados das lojas selecionadas
 dados_lojas_selecionadas = df[df["Loja"].isin(lojas_selecionadas)]
 
+# Filtrar coluna % Ressarcimento para conter apenas valores numéricos
+dados_lojas_selecionadas["% Ressarcimento"] = pd.to_numeric(dados_lojas_selecionadas["% Ressarcimento"], errors="coerce")
+
 # Organizar os blocos de total em uma grade
 total_container = st.container()
 total_container.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
@@ -55,7 +58,7 @@ with total_block[3]:
     st.markdown(f'<div style="{value_style}">{formatar_valor(diferenca_ressarcimento_complemento)}</div>', unsafe_allow_html=True)
 
 # Média % Ressarcimento geral
-media_percentual_ressarcimento = df.iloc[:, 8].mean()
+media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean()
 
 # Bloco de Média % Ressarcimento
 with total_block[4]:

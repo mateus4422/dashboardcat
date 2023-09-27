@@ -48,12 +48,16 @@ for loja in df_filtrado["Loja"].unique():
     st.write("Status:", df_filtrado[df_filtrado["Loja"] == loja]["Status"].iloc[0])
 
 # Gráficos de comparação entre P1 e P2
+# Gráficos de comparação entre P1 e P2
 fig, ax = plt.subplots(3, 1, figsize=(8, 12))
 for i, col in enumerate(["Faturamento ST", "Ressarcimento", "% Ressarcimento"]):
     df_p1 = df_filtrado[df_filtrado["Período"] == "P1"]
     df_p2 = df_filtrado[df_filtrado["Período"] == "P2"]
     
-    ax[i].bar(["P1", "P2"], [df_p1[col].sum(), df_p2[col].sum()])
+    # Converte os valores de "P1" e "P2" para strings
+    periodos = ["P1", "P2"]
+    
+    ax[i].bar(periodos, [df_p1[col].sum(), df_p2[col].sum()])
     ax[i].set_ylabel(col)
     ax[i].set_title(f"Comparação entre P1 e P2 - {col}")
 

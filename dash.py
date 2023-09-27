@@ -5,6 +5,10 @@ import pandas as pd
 url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSulTerCVzXwOlraQucdzZsvxg-XGDZPA9xAXiMpFkQJ7GlfisoPoWzh3MrJEKCQPZYnDer7Cd0u5qE/pubhtml"
 df = pd.read_html(url)[0]
 
+# Mostrar as colunas disponíveis
+st.write("Colunas Disponíveis:")
+st.write(df.columns)
+
 # Sidebar com filtro de lojas
 st.sidebar.header("Filtro de Lojas")
 lojas = df["Loja"].unique()

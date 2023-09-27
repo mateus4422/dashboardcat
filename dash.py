@@ -60,8 +60,6 @@ with total_block[4]:
     media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean()
     st.markdown(f'<div style="{value_style}">{media_percentual_ressarcimento:.2f}%</div>', unsafe_allow_html=True)
 
-# Espaço em branco entre os blocos
-st.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
 
 # Gráfico de Barras (Faturamento ST)
 st.subheader("Gráfico de Barras (Faturamento ST)")

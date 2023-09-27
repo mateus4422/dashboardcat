@@ -3,3 +3,4 @@ plotly
 matplotlib
 lxml
 openpyxl
+locale

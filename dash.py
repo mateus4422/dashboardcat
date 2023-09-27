@@ -4,8 +4,6 @@ import pandas as pd
 # Centralize a logo "farma.png" no meio da página
 st.image("farma.png", use_column_width=False, caption="Logo", output_format="PNG", width=200, height=200, output_format="PNG")
 
-)
-
 # Carregar os dados do Excel
 url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSulTerCVzXwOlraQucdzZsvxg-XGDZPA9xAXiMpFkQJ7GlfisoPoWzh3MrJEKCQPZYnDer7Cd0u5qE/pub?output=xlsx"
 df = pd.read_excel(url, usecols=[1, 2, 3, 4, 5, 6, 7, 8, 9])  # Lê todas as colunas

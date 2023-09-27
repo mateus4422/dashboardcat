@@ -20,17 +20,14 @@ df["Período"] = df["Periodo Inicial"].apply(determinar_periodo)
 
 # Limpa os caracteres não numéricos e converte para números
 def limpar_valor(valor):
-    valor_limpo = valor.replace("R$", "").replace(".", "").replace(",", ".").replace('%', '')
+    valor_limpo = valor.replace("R$", "").replace(".", "").replace(",", ".")
     return float(valor_limpo)
 
 # Converte os valores de "Faturamento ST" para números
 df["Faturamento ST"] = df["Faturamento ST"].apply(limpar_valor)
 
 # Converte os valores de "Ressarcimento" para números
-df["% Ressarcimento"] = df["% Ressarcimento"].apply(limpar_valor)
-
-# Converte os valores de "% Ressarcimento" para números
-df["% Ressarcimento"] = df["% Ressarcimento"].str.rstrip('%').astype(float)
+df["Ressarcimento"] = df["Ressarcimento"].apply(limpar_valor)
 
 # Título do dashboard
 st.title("Dashboard de Análise de Lojas")
@@ -55,10 +52,6 @@ for loja in df_filtrado["Loja"].unique():
     st.write("Faturamento ST:", df_filtrado[df_filtrado["Loja"] == loja]["Faturamento ST"].sum())
     st.write("Ressarcimento:", df_filtrado[df_filtrado["Loja"] == loja]["Ressarcimento"].sum())
     
-    # Converte a coluna "% Ressarcimento" para valores numéricos
-    percent_r = df_filtrado[df_filtrado["Loja"] == loja]["% Ressarcimento"].str.replace(',', '.').str.rstrip('%').astype(float)
-    st.write("% Ressarcimento:", percent_r.mean())
-    
     st.write("Status:", df_filtrado[df_filtrado["Loja"] == loja]["Status"].iloc[0])
 
 # Gráficos de comparação entre P1 e P2
@@ -67,11 +60,7 @@ for i, col in enumerate(["Faturamento ST", "Ressarcimento", "% Ressarcimento"]):
     df_p1 = df_filtrado[df_filtrado["Período"] == "P1"]
     df_p2 = df_filtrado[df_filtrado["Período"] == "P2"]
     
-    # Converte os valores para inteiros
-    p1_value = int(df_p1[col].sum())
-    p2_value = int(df_p2[col].sum())
-    
-    ax[i].bar(["P1", "P2"], [p1_value, p2_value])
+    ax[i].bar(["P1", "P2"], [df_p1[col].sum(), df_p2[col].sum()])
     ax[i].set_ylabel(col)
     ax[i].set_title(f"Comparação entre P1 e P2 - {col}")
 
@@ -84,10 +73,6 @@ if filtro_geral:
     # Dados em números
     st.write("Faturamento ST (Total):", df_filtrado["Faturamento ST"].sum())
     st.write("Ressarcimento (Total):", df_filtrado["Ressarcimento"].sum())
-    
-    # Converte a coluna "% Ressarcimento" para valores numéricos
-    percent_r_total = df_filtrado["% Ressarcimento"].str.replace(',', '.').str.rstrip('%').astype(float)
-    st.write("% Ressarcimento (Total):", percent_r_total.mean())
     
     # Gráficos de comparação das lojas
     fig2, ax2 = plt.subplots(2, 1, figsize=(8, 8))

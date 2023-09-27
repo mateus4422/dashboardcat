@@ -4,8 +4,6 @@ import pandas as pd
 # Exibir o logotipo centralizado com tamanho 200x200
 st.image("farma.png", use_column_width=False, caption="Logo", output_format="PNG", width=200)
 
-# Adicionar linhas separadoras sublinhadas
-st.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
 
 # Carregar os dados do Excel
 url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSulTerCVzXwOlraQucdzZsvxg-XGDZPA9xAXiMpFkQJ7GlfisoPoWzh3MrJEKCQPZYnDer7Cd0u5qE/pub?output=xlsx"

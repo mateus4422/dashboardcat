@@ -4,7 +4,6 @@ import pandas as pd
 # Exibir o logotipo centralizado com tamanho 200x200
 st.image("farma.png", use_column_width=False, caption="Logo", output_format="PNG", width=200)
 
-
 # Carregar os dados do Excel
 url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSulTerCVzXwOlraQucdzZsvxg-XGDZPA9xAXiMpFkQJ7GlfisoPoWzh3MrJEKCQPZYnDer7Cd0u5qE/pub?output=xlsx"
 df = pd.read_excel(url, usecols=[1, 2, 3, 4, 5, 6, 7, 8, 9])  # Lê todas as colunas
@@ -21,6 +20,7 @@ dados_lojas_selecionadas = df[df["Loja"].isin(lojas_selecionadas)]
 
 # Organizar os blocos de total em uma grade
 total_container = st.container()
+total_container.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
 total_block = st.columns(5)
 
 # Estilo para centralizar e formatar os valores
@@ -54,10 +54,12 @@ with total_block[3]:
     diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
     st.markdown(f'<div style="{value_style}">{formatar_valor(diferenca_ressarcimento_complemento)}</div>', unsafe_allow_html=True)
 
+# Média % Ressarcimento geral
+media_percentual_ressarcimento = df.iloc[:, 8].mean()
+
 # Bloco de Média % Ressarcimento
 with total_block[4]:
     st.subheader("Média % Ressarcimento")
-    media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean()
     st.markdown(f'<div style="{value_style}">{media_percentual_ressarcimento:.2f}%</div>', unsafe_allow_html=True)
 
 # Espaço em branco entre os blocos

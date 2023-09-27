@@ -13,48 +13,49 @@ df.columns = ["Período Inicial", "Período Final", "Loja", "CNPJ", "Faturamento
 df["P1_P2"] = "P1"  # Inicialmente, todas as linhas são definidas como P1
 df.loc[df["Período Inicial"] >= "2019-09-01", "P1_P2"] = "P2"  # Definir como P2 se a data inicial for posterior a 01/09/2019
 
-# Calcular a média de ressarcimento da seguinte maneira: (Ressarcimento - 100) / Faturamento
+# Calcular a média de ressarcimento da seguinte maneira: (Ressarcimeento - 100) / Faturamento
 df["Media Ressarcimento"] = ((df["Ressarcimento"] - 100) / df["Faturamento ST"]) * 100
 
-# Filtro de Lojas
+# Filtro de Lojas (checkboxes)
 lojas = df["Loja"].unique()
-loja_selecionada = st.selectbox("Selecione uma loja:", ["Geral"] + list(lojas))
+lojas_selecionadas = st.multiselect("Selecione as lojas para comparação:", lojas, default=lojas)
 
-# Filtrar dados da loja selecionada
-if loja_selecionada == "Geral":
-    dados_loja = df  # Exibir todos os dados
+# Filtrar dados das lojas selecionadas
+if "Geral" in lojas_selecionadas:
+    dados_lojas_selecionadas = df  # Exibir todos os dados
 else:
-    dados_loja = df[df["Loja"] == loja_selecionada]  # Filtrar dados da loja selecionada
+    dados_lojas_selecionadas = df[df["Loja"].isin(lojas_selecionadas)]  # Filtrar dados das lojas selecionadas
 
 # Resumo Geral
 st.write("Resumo Geral:")
 
 # Bloco de Total Faturamento ST
 st.subheader("Total Faturamento ST")
-total_faturamento_st = dados_loja["Faturamento ST"].sum()
+total_faturamento_st = dados_lojas_selecionadas["Faturamento ST"].sum()
 st.write(f"R$ {total_faturamento_st:,.2f}")
 
 # Bloco de Total Ressarcimento
 st.subheader("Total Ressarcimento")
-total_ressarcimento = dados_loja["Ressarcimento"].sum()
+total_ressarcimento = dados_lojas_selecionadas["Ressarcimento"].sum()
 st.write(f"R$ {total_ressarcimento:,.2f}")
+
+# Bloco de Média % Ressarcimento
+st.subheader("Média % Ressarcimento")
+media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean()
+st.write(f"{media_percentual_ressarcimento:.2%}")
 
 # Bloco de Média Ressarcimento (calculado)
 st.subheader("Média Ressarcimento (calculado)")
-media_ressarcimento_calculado = dados_loja["Media Ressarcimento"].mean()
+media_ressarcimento_calculado = dados_lojas_selecionadas["Media Ressarcimento"].mean()
 st.write(f"{media_ressarcimento_calculado:.2f}%")
 
-# Gráfico de barras verticais para comparar Faturamento e Ressarcimento das Lojas
-fig = px.bar(dados_loja, x="Loja", y=["Faturamento ST", "Ressarcimento"],
+# Gráfico de barras verticais para comparar Faturamento e Ressarcimento das Lojas selecionadas
+fig = px.bar(dados_lojas_selecionadas, x="Loja", y=["Faturamento ST", "Ressarcimento"],
              labels={"Loja": "Loja", "value": "Valor (R$)"},
              title="Comparação de Faturamento e Ressarcimento das Lojas")
 st.plotly_chart(fig)
 
 # Exibir as lojas selecionadas
-if loja_selecionada != "Geral":
-    st.write(f"Loja Selecionada: {loja_selecionada}")
-
-# Exibir valores completos de cada loja
-if loja_selecionada != "Geral":
-    st.write("Valores Completos da Loja:")
-    st.table(dados_loja)
+if "Geral" not in lojas_selecionadas:
+    st.write("Lojas Selecionadas:")
+    st.table(dados_lojas_selecionadas)

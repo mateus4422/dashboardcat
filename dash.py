@@ -21,7 +21,7 @@ dados_lojas_selecionadas = df[df["Loja"].isin(lojas_selecionadas)]
 
 # Organizar os blocos de total em uma grade
 total_container = st.container()
-total_container.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
+
 total_block = st.columns(5)
 
 # Estilo para centralizar e formatar os valores

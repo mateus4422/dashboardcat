@@ -31,19 +31,19 @@ block_style = "display: flex; flex-direction: column; justify-content: center; a
 
 # Bloco de Faturamento ST
 with total_block1:
-    st.subheader("Faturamento ST")
+    st.subheader("Total Faturamento ST")
     total_faturamento_st = dados_lojas_selecionadas["Faturamento ST"].sum()
     st.markdown(f'<div style="{block_style}">{total_faturamento_st:,.2f}</div>', unsafe_allow_html=True)
 
 # Bloco de Ressarcimento
 with total_block2:
-    st.subheader("Ressarcimento")
+    st.subheader("Total Ressarcimento")
     total_ressarcimento = dados_lojas_selecionadas["Ressarcimento"].sum()
     st.markdown(f'<div style="{block_style}">{total_ressarcimento:,.2f}</div>', unsafe_allow_html=True)
 
 # Bloco de Complemento
 with total_block3:
-    st.subheader("Complemento")
+    st.subheader("Total Complemento")
     total_complemento = dados_lojas_selecionadas["Complemento"].sum()
     st.markdown(f'<div style="{block_style}">{total_complemento:,.2f}</div>', unsafe_allow_html=True)
 
@@ -53,25 +53,7 @@ with total_block4:
     diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
     st.markdown(f'<div style="{block_style}">{diferenca_ressarcimento_complemento:,.2f}</div>', unsafe_allow_html=True)
 
-# Adicionar espaço em branco entre os blocos
-st.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
-
-# Gráfico de Barras (Faturamento ST)
-st.subheader("Gráfico de Barras (Faturamento ST)")
-st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Faturamento ST"], use_container_width=True)
-
-# Gráfico de Barras (Ressarcimento)
-st.subheader("Gráfico de Barras (Ressarcimento)")
-st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Ressarcimento"], use_container_width=True)
-
-# Gráfico de Barras (Complemento)
-st.subheader("Gráfico de Barras (Complemento)")
-st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Complemento"], use_container_width=True)
-
-# Gráfico de Barras (Diferença Ressarcimento - Complemento)
-st.subheader("Gráfico de Barras (Diferença Ressarcimento - Complemento)")
-st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Ressarcimento"] - dados_lojas_selecionadas.set_index("Loja")["Complemento"], use_container_width=True)
-
 # Mostrar a média de ressarcimento
 media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean()
-st.markdown(f'<div style="{block_style}">Média % Ressarcimento: {media_percentual_ressarcimento:.2%}</div>', unsafe_allow_html=True)
+st.markdown(f'<div style="{block_style}">Média % Ressarcimento</div>', unsafe_allow_html=True)
+st.markdown(f'<div style="{block_style}">{media_percentual_ressarcimento:.2%}</div>', unsafe_allow_html=True)

@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # Exibir o logotipo centralizado com tamanho 200x200
-st.image("farma.png", use_column_width=False, caption="Logo", output_format="PNG", width=200)
+st.image("farma.png", use_column_width=False, caption="", output_format="PNG", width=200)
 
 # Carregar os dados do Excel
 url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSulTerCVzXwOlraQucdzZsvxg-XGDZPA9xAXiMpFkQJ7GlfisoPoWzh3MrJEKCQPZYnDer7Cd0u5qE/pub?output=xlsx"
@@ -23,6 +23,7 @@ dados_lojas_selecionadas["% Ressarcimento"] = pd.to_numeric(dados_lojas_selecion
 
 # Organizar os blocos de total em uma grade
 total_container = st.container()
+total_container.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
 total_block = st.columns(5)
 
 # Estilo para centralizar e formatar os valores
@@ -52,7 +53,7 @@ with total_block[2]:
 
 # Bloco de Diferença Ressarcimento - Complemento
 with total_block[3]:
-    st.subheader("Ressarcimento - Comple")
+    st.subheader("Ressarcimento - Complemento")
     diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
     st.markdown(f'<div style="{value_style}">{formatar_valor(diferenca_ressarcimento_complemento)}</div>', unsafe_allow_html=True)
 
@@ -63,6 +64,9 @@ media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mea
 with total_block[4]:
     st.subheader("Média % Ressarcimento")
     st.markdown(f'<div style="{value_style}">{media_percentual_ressarcimento:.1f}%</div>', unsafe_allow_html=True)
+
+# Espaço em branco entre os blocos
+st.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
 
 # Gráfico de Barras (Faturamento ST)
 st.subheader("Gráfico de Barras (Faturamento ST)")
@@ -76,6 +80,10 @@ st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Ressarcimento"], use_co
 st.subheader("Gráfico de Barras (Complemento)")
 st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Complemento"], use_container_width=True)
 
-# Gráfico de Barras (Diferença Ressarcimento - Complemento)
-st.subheader("Gráfico de Barras (Diferença Ressarcimento - Complemento)")
-st.bar_chart([diferenca_ressarcimento_complemento], use_container_width=True)
+# Gráfico de Barras empilhadas (Ressarcimento e Complemento)
+st.subheader("Gráfico de Barras (Ressarcimento - Complemento)")
+fig, ax = plt.subplots()
+dados_lojas_selecionadas.set_index("Loja")[["Ressarcimento", "Complemento"]].plot(kind="bar", stacked=True, ax=ax)
+ax.set_xlabel("Loja")
+ax.set_ylabel("Valor")
+st.pyplot(fig)

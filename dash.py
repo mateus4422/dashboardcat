@@ -57,13 +57,13 @@ with total_block[3]:
     diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
     st.markdown(f'<div style="{value_style}">{formatar_valor(diferenca_ressarcimento_complemento)}</div>', unsafe_allow_html=True)
 
-# Média % Ressarcimento geral
-media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean()
+# Média % Ressarcimento geral (multiplicada por 100)
+media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean() * 100
 
 # Bloco de Média % Ressarcimento
 with total_block[4]:
     st.subheader("Média % Ressarcimento")
-    st.markdown(f'<div style="{value_style}">{media_percentual_ressarcimento:.2f}%</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="{value_style}">{media_percentual_ressarcimento:.1f}%</div>', unsafe_allow_html=True)
 
 # Espaço em branco entre os blocos
 st.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)

@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
 
-# Exibir o logotipo centralizado
-st.image("farma.png", use_column_width=True, caption="", output_format="PNG", width=100)
+# Exibir o logotipo centralizado com tamanho 200x200
+st.image("farma.png", use_column_width=False, caption="Logo", output_format="PNG", width=200)
 
 # Adicionar linhas separadoras sublinhadas
 st.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
@@ -68,3 +68,7 @@ st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Complemento"], use_cont
 # Gráfico de Barras (Ressarcimento - Complemento)
 st.subheader("Gráfico de Barras (Ressarcimento - Complemento)")
 st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Ressarcimento"] - dados_lojas_selecionadas.set_index("Loja")["Complemento"], use_container_width=True)
+
+# Mostrar a média de ressarcimento
+media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean()
+st.write(f"Média % Ressarcimento: {media_percentual_ressarcimento:.2%}")

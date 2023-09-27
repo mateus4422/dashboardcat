@@ -41,35 +41,11 @@ st.subheader("Média % Ressarcimento")
 media_percentual_ressarcimento = dados_loja["% Ressarcimento"].mean()
 st.write(f"{media_percentual_ressarcimento:.2%}")
 
-# Gráfico de barras para Faturamento das Lojas
-fig_faturamento = px.bar(
-    dados_loja, x="Loja", y="Faturamento ST",
-    color="Loja",  # Adiciona cores diferentes para cada loja
-    labels={"Loja": "Loja", "Faturamento ST": "Faturamento ST (R$)"},
-    title="Faturamento das Lojas"
-)
-# Personalizar a legenda com o nome da loja e número de lojas
-fig_faturamento.update_traces(showlegend=True, name="Loja")
-fig_faturamento.update_layout(annotations=[
-    dict(x=loja, y=total_faturamento_st, text=f"Lojas: {len(lojas)}", showarrow=False, xanchor="center")
-    for loja in lojas
-])
-st.plotly_chart(fig_faturamento)
-
-# Gráfico de barras para Ressarcimento das Lojas
-fig_ressarcimento = px.bar(
-    dados_loja, x="Loja", y="Ressarcimento",
-    color="Loja",  # Adiciona cores diferentes para cada loja
-    labels={"Loja": "Loja", "Ressarcimento": "Ressarcimento (R$)"},
-    title="Ressarcimento das Lojas"
-)
-# Personalizar a legenda com o nome da loja e número de lojas
-fig_ressarcimento.update_traces(showlegend=True, name="Loja")
-fig_ressarcimento.update_layout(annotations=[
-    dict(x=loja, y=total_ressarcimento, text=f"Lojas: {len(lojas)}", showarrow=False, xanchor="center")
-    for loja in lojas
-])
-st.plotly_chart(fig_ressarcimento)
+# Gráfico de barras verticais para comparar Faturamento e Ressarcimento das Lojas
+fig = px.bar(dados_loja, x="Loja", y=["Faturamento ST", "Ressarcimento"],
+             labels={"Loja": "Loja", "value": "Valor (R$)"},
+             title="Comparação de Faturamento e Ressarcimento das Lojas")
+st.plotly_chart(fig)
 
 # Exibir as lojas selecionadas
 if loja_selecionada != "Geral":

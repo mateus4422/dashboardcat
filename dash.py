@@ -20,14 +20,14 @@ df["Período"] = df["Periodo Inicial"].apply(determinar_periodo)
 
 # Limpa os caracteres não numéricos e converte para números
 def limpar_valor(valor):
-    valor_limpo = valor.replace("R$", "").replace(".", "").replace(",", ".")
+    valor_limpo = valor.replace("R$", "").replace(".", "").replace(",", ".").replace('%', '')
     return float(valor_limpo)
 
 # Converte os valores de "Faturamento ST" para números
 df["Faturamento ST"] = df["Faturamento ST"].apply(limpar_valor)
 
 # Converte os valores de "Ressarcimento" para números
-df["Ressarcimento"] = df["Ressarcimento"].apply(limpar_valor)
+df["% Ressarcimento"] = df["% Ressarcimento"].apply(limpar_valor)
 
 # Converte os valores de "% Ressarcimento" para números
 df["% Ressarcimento"] = df["% Ressarcimento"].str.rstrip('%').astype(float)

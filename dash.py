@@ -26,38 +26,31 @@ total_container = st.container()
 total_container.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
 total_block1, total_block2, total_block3, total_block4 = st.columns(4)
 
-# Bloco de Total Faturamento ST
+# Bloco de Faturamento ST
 with total_block1:
-    st.subheader("Total Faturamento ST")
+    st.subheader("Faturamento ST")
     total_faturamento_st = dados_lojas_selecionadas["Faturamento ST"].sum()
     st.write(f"R$ {total_faturamento_st:,.2f}")
 
-# Bloco de Total Ressarcimento
+# Bloco de Ressarcimento
 with total_block2:
-    st.subheader("Total Ressarcimento")
+    st.subheader("Ressarcimento")
     total_ressarcimento = dados_lojas_selecionadas["Ressarcimento"].sum()
     st.write(f"R$ {total_ressarcimento:,.2f}")
 
-# Bloco de Total Complemento
+# Bloco de Complemento
 with total_block3:
-    st.subheader("Total Complemento")
+    st.subheader("Complemento")
     total_complemento = dados_lojas_selecionadas["Complemento"].sum()
     st.write(f"R$ {total_complemento:,.2f}")
 
-# Bloco de Ressarcimento - Complemento
+# Bloco de Diferença Ressarcimento - Complemento
 with total_block4:
-    st.subheader("Ressarcimento - Complemento")
+    st.subheader("Diferença Ressarcimento - Complemento")
     diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
     st.write(f"R$ {diferenca_ressarcimento_complemento:,.2f}")
 
-# Bloco de Média % Ressarcimento
-with total_block4:
-    st.subheader("Média % Ressarcimento")
-    media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean()
-    st.write(f"{media_percentual_ressarcimento:.2%}")
-
-
-# Espaço em branco entre os blocos
+# Adicionar espaço em branco entre os blocos
 st.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
 
 # Gráfico de Barras (Faturamento ST)
@@ -72,8 +65,8 @@ st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Ressarcimento"], use_co
 st.subheader("Gráfico de Barras (Complemento)")
 st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Complemento"], use_container_width=True)
 
-# Gráfico de Barras (Ressarcimento - Complemento)
-st.subheader("Gráfico de Barras (Ressarcimento - Complemento)")
+# Gráfico de Barras (Diferença Ressarcimento - Complemento)
+st.subheader("Gráfico de Barras (Diferença Ressarcimento - Complemento)")
 st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Ressarcimento"] - dados_lojas_selecionadas.set_index("Loja")["Complemento"], use_container_width=True)
 
 # Mostrar a média de ressarcimento

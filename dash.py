@@ -27,7 +27,7 @@ total_container.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_h
 total_block1, total_block2, total_block3, total_block4, total_block5 = st.columns(5)
 
 # Estilo para centralizar e formatar os valores
-value_style = "display: flex; justify-content: center; align-items: center; text-align: center; border: 2px solid #FF6400; padding: 10px; font-size: 20px;"
+value_style = "display: flex; justify-content: center; align-items: center; text-align: center; border: 2px solid #FF6400; padding: 8px; font-size: 14px;"
 
 # Bloco de Faturamento ST
 with total_block1:

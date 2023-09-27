@@ -95,4 +95,5 @@ if filtro_geral:
         ax2[i].bar(df_filtrado["Loja"], df_filtrado[col])
         ax2[i].set_ylabel(col)
         ax2[i].set_title(f"Comparação entre Lojas - {col}")
-        ax2[i
+        ax2[i].tick_params(axis="x", rotation=45)
+    st.pyplot(fig2)

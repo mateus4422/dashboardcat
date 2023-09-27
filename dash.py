@@ -40,7 +40,11 @@ for loja in df_filtrado["Loja"].unique():
     # Dados em números
     st.write("Faturamento ST:", df_filtrado[df_filtrado["Loja"] == loja]["Faturamento ST"].sum())
     st.write("Ressarcimento:", df_filtrado[df_filtrado["Loja"] == loja]["Ressarcimento"].sum())
-    st.write("% Ressarcimento:", df_filtrado[df_filtrado["Loja"] == loja]["% Ressarcimento"].mean())
+    
+    # Converte a coluna "% Ressarcimento" para valores numéricos
+    percent_r = df_filtrado[df_filtrado["Loja"] == loja]["% Ressarcimento"].str.replace(',', '.').str.rstrip('%').astype(float)
+    st.write("% Ressarcimento:", percent_r.mean())
+    
     st.write("Status:", df_filtrado[df_filtrado["Loja"] == loja]["Status"].iloc[0])
 
 # Gráficos de comparação entre P1 e P2
@@ -62,7 +66,10 @@ if filtro_geral:
     # Dados em números
     st.write("Faturamento ST (Total):", df_filtrado["Faturamento ST"].sum())
     st.write("Ressarcimento (Total):", df_filtrado["Ressarcimento"].sum())
-    st.write("% Ressarcimento (Total):", df_filtrado["% Ressarcimento"].mean())
+    
+    # Converte a coluna "% Ressarcimento" para valores numéricos
+    percent_r_total = df_filtrado["% Ressarcimento"].str.replace(',', '.').str.rstrip('%').astype(float)
+    st.write("% Ressarcimento (Total):", percent_r_total.mean())
     
     # Gráficos de comparação das lojas
     fig2, ax2 = plt.subplots(2, 1, figsize=(8, 8))

@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-
+import plotly.express as px
 # Exibir o logotipo centralizado com tamanho 200x200
 st.image("farma.png", use_column_width=False, caption="", output_format="PNG", width=200)
 
@@ -86,5 +86,18 @@ st.subheader("Gráfico de Barras (Diferença Ressarcimento - Complemento)")
 # Calcula a diferença entre Ressarcimento e Complemento para cada loja
 dados_lojas_selecionadas["Diferença Ressarcimento - Complemento"] = dados_lojas_selecionadas["Ressarcimento"] - dados_lojas_selecionadas["Complemento"]
 
-# Cria um gráfico de barras com a diferença
-st.bar_chart(dados_lojas_selecionadas[["Loja", "Diferença Ressarcimento - Complemento"]].set_index("Loja"), use_container_width=True)
+# Cria um gráfico de barras com a diferença usando plotly
+fig = px.bar(
+    dados_lojas_selecionadas,
+    x="Loja",
+    y="Diferença Ressarcimento - Complemento",
+    title="Diferença Ressarcimento - Complemento por Loja",
+    labels={"Loja": "Loja", "Diferença Ressarcimento - Complemento": "Diferença"},
+    color_discrete_map={"Ressarcimento": "blue", "Complemento": "red"},  # Cores personalizadas
+)
+
+# Personalizações adicionais, se necessário
+fig.update_traces(texttemplate='%{y:.2f}', textposition='outside')
+
+# Exibe o gráfico no Streamlit
+st.plotly_chart(fig, use_container_width=True)

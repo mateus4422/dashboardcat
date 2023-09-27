@@ -37,28 +37,28 @@ def inverter_pontuacao(text):
 with total_block[0]:
     st.subheader("Faturamento ST")
     total_faturamento_st = dados_lojas_selecionadas["Faturamento ST"].sum()
-    total_faturamento_st_formatted = inverter_pontuacao(f"{total_faturamento_st:.2f}")
+    total_faturamento_st_formatted = inverter_pontuacao(f"R$ {total_faturamento_st:.2f}")
     st.markdown(f'<div style="{value_style}">{total_faturamento_st_formatted}</div>', unsafe_allow_html=True)
 
 # Bloco de Ressarcimento
 with total_block[1]:
     st.subheader("Ressarcimento")
     total_ressarcimento = dados_lojas_selecionadas["Ressarcimento"].sum()
-    total_ressarcimento_formatted = inverter_pontuacao(f"{total_ressarcimento:.2f}")
+    total_ressarcimento_formatted = inverter_pontuacao(f"R$ {total_ressarcimento:.2f}")
     st.markdown(f'<div style="{value_style}">{total_ressarcimento_formatted}</div>', unsafe_allow_html=True)
 
 # Bloco de Complemento
 with total_block[2]:
     st.subheader("Complemento")
     total_complemento = dados_lojas_selecionadas["Complemento"].sum()
-    total_complemento_formatted = inverter_pontuacao(f"{total_complemento:.2f}")
+    total_complemento_formatted = inverter_pontuacao(f"R$ {total_complemento:.2f}")
     st.markdown(f'<div style="{value_style}">{total_complemento_formatted}</div>', unsafe_allow_html=True)
 
 # Bloco de Diferença Ressarcimento - Complemento
 with total_block[3]:
     st.subheader("Diferença Ressarcimento - Complemento")
     diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
-    diferenca_ressarcimento_complemento_formatted = inverter_pontuacao(f"{diferenca_ressarcimento_complemento:.2f}")
+    diferenca_ressarcimento_complemento_formatted = inverter_pontuacao(f"R$ {diferenca_ressarcimento_complemento:.2f}")
     st.markdown(f'<div style="{value_style}">{diferenca_ressarcimento_complemento_formatted}</div>', unsafe_allow_html=True)
 
 # Bloco de Média % Ressarcimento

@@ -5,7 +5,7 @@ import pandas as pd
 st.image("farma.png", use_column_width=False, caption="Logo", output_format="PNG", width=200)
 
 # Adicionar linhas separadoras sublinhadas
-st.markdown('<hr style="border:0.5px solid #FF6400">', unsafe_allow_html=True)
+st.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
 
 # Carregar os dados do Excel
 url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSulTerCVzXwOlraQucdzZsvxg-XGDZPA9xAXiMpFkQJ7GlfisoPoWzh3MrJEKCQPZYnDer7Cd0u5qE/pub?output=xlsx"
@@ -23,41 +23,38 @@ dados_lojas_selecionadas = df[df["Loja"].isin(lojas_selecionadas)]
 
 # Organizar os blocos de total em uma grade
 total_container = st.container()
-total_container.markdown('<hr style="border:0.5px solid #FF6400">', unsafe_allow_html=True)
+total_container.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
 total_block1, total_block2, total_block3, total_block4 = st.columns(4)
 
-# Estilo para centralizar e formatar os blocos
-block_style = "display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border: 0.5px solid #00000; padding: 10px; font-size: 20px;"
+# Estilo para centralizar e formatar os valores
+value_style = "display: flex; justify-content: center; align-items: center; text-align: center; border: 2px solid #FF6400; padding: 10px; font-size: 20px;"
 
 # Bloco de Faturamento ST
 with total_block1:
     st.subheader("Total Faturamento ST")
     total_faturamento_st = dados_lojas_selecionadas["Faturamento ST"].sum()
-    st.markdown(f'<div style="{block_style}">{total_faturamento_st:,.2f}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="{value_style}">{total_faturamento_st:,.2f}</div>', unsafe_allow_html=True)
 
 # Bloco de Ressarcimento
 with total_block2:
     st.subheader("Total Ressarcimento")
     total_ressarcimento = dados_lojas_selecionadas["Ressarcimento"].sum()
-    st.markdown(f'<div style="{block_style}">{total_ressarcimento:,.2f}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="{value_style}">{total_ressarcimento:,.2f}</div>', unsafe_allow_html=True)
 
 # Bloco de Complemento
 with total_block3:
     st.subheader("Total Complemento")
     total_complemento = dados_lojas_selecionadas["Complemento"].sum()
-    st.markdown(f'<div style="{block_style}">{total_complemento:,.2f}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="{value_style}">{total_complemento:,.2f}</div>', unsafe_allow_html=True)
 
 # Bloco de Diferença Ressarcimento - Complemento
 with total_block4:
-    st.subheader("Ressarcimento - Complemento")
+    st.subheader("Diferença Ressarcimento - Complemento")
     diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
-    st.markdown(f'<div style="{block_style}">{diferenca_ressarcimento_complemento:,.2f}</div>', unsafe_allow_html=True)
-    
+    st.markdown(f'<div style="{value_style}">{diferenca_ressarcimento_complemento:,.2f}</div>', unsafe_allow_html=True)
 
 # Mostrar a média de ressarcimento
 media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean()
-st.markdown(f'<div style="{block_style}">Média % Ressarcimento:</div>', unsafe_allow_html=True)
-st.markdown(f'<div style="{block_style}">{media_percentual_ressarcimento:.2%}</div>', unsafe_allow_html=True)
 
 # Espaço em branco entre os blocos
 st.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
@@ -75,5 +72,9 @@ st.subheader("Gráfico de Barras (Complemento)")
 st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Complemento"], use_container_width=True)
 
 # Gráfico de Barras (Diferença Ressarcimento - Complemento)
-st.subheader("Gráfico de Barras (Ressarcimento - Complemento)")
+st.subheader("Gráfico de Barras (Diferença Ressarcimento - Complemento)")
 st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Ressarcimento"] - dados_lojas_selecionadas.set_index("Loja")["Complemento"], use_container_width=True)
+
+# Mostrar a média de ressarcimento no bloco de Diferença Ressarcimento - Complemento
+with total_block4:
+    st.markdown(f'<div style="{value_style}">Média % Ressarcimento: {media_percentual_ressarcimento:.2%}</div>', unsafe_allow_html=True)

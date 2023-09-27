@@ -5,7 +5,7 @@ import pandas as pd
 st.image("farma.png", use_column_width=False, caption="Logo", output_format="PNG", width=200)
 
 # Adicionar linhas separadoras sublinhadas
-st.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
+st.markdown('<hr style="border:0.5px solid #FF6400">', unsafe_allow_html=True)
 
 # Carregar os dados do Excel
 url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSulTerCVzXwOlraQucdzZsvxg-XGDZPA9xAXiMpFkQJ7GlfisoPoWzh3MrJEKCQPZYnDer7Cd0u5qE/pub?output=xlsx"
@@ -27,7 +27,7 @@ total_container.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_h
 total_block1, total_block2, total_block3, total_block4 = st.columns(4)
 
 # Estilo para centralizar e formatar os blocos
-block_style = "display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border: 2px solid #FF6400; padding: 10px; font-size: 20px;"
+block_style = "display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border: 1px solid #FF6400; padding: 10px; font-size: 20px;"
 
 # Bloco de Faturamento ST
 with total_block1:

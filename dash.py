@@ -24,6 +24,6 @@ st.write(dados_loja)
 
 # Resumo Geral
 st.write("Resumo Geral:")
-st.write("Total Faturamento ST:", dados_loja["Faturamento ST"].sum())
-st.write("Total Ressarcimento:", dados_loja["Ressarcimento"].sum())
-st.write("Média % Ressarcimento:", dados_loja["% Ressarcimento"].mean())
+st.write("Total Faturamento ST: R$", round(dados_loja["Faturamento ST"].sum(), 2))
+st.write("Total Ressarcimento: R$", round(dados_loja["Ressarcimento"].sum(), 2))
+st.write("Média % Ressarcimento:", round(dados_loja["% Ressarcimento"].mean(), 2), "%")

@@ -49,7 +49,7 @@ with total_block3:
 
 # Bloco de Diferença Ressarcimento - Complemento
 with total_block4:
-    st.subheader("Diferença Ressarcimento - Complemento")
+    st.subheader("Ressarcimento - Complemento")
     diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
     st.markdown(f'<div style="{value_style}">{diferenca_ressarcimento_complemento:,.2f}</div>', unsafe_allow_html=True)
 

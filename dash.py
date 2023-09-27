@@ -20,7 +20,7 @@ df["Período"] = df["Periodo Inicial"].apply(determinar_periodo)
 
 # Limpa os caracteres não numéricos e converte para números
 def limpar_valor(valor):
-    valor_limpo = valor.replace("R$", "").replace(".", "").replace(",", ".")
+    valor_limpo = valor.replace("R$", "").replace(".", "").replace(",", "").strip()
     return float(valor_limpo)
 
 # Converte os valores de "Faturamento ST" para números

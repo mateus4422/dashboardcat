@@ -31,19 +31,19 @@ value_style = "display: flex; justify-content: center; align-items: center; text
 
 # Bloco de Faturamento ST
 with total_block1:
-    st.subheader("Total Faturamento ST")
+    st.subheader("Faturamento ST")
     total_faturamento_st = dados_lojas_selecionadas["Faturamento ST"].sum()
     st.markdown(f'<div style="{value_style}">{total_faturamento_st:,.2f}</div>', unsafe_allow_html=True)
 
 # Bloco de Ressarcimento
 with total_block2:
-    st.subheader("Total Ressarcimento")
+    st.subheader("Ressarcimento")
     total_ressarcimento = dados_lojas_selecionadas["Ressarcimento"].sum()
     st.markdown(f'<div style="{value_style}">{total_ressarcimento:,.2f}</div>', unsafe_allow_html=True)
 
 # Bloco de Complemento
 with total_block3:
-    st.subheader("Total Complemento")
+    st.subheader("Complemento")
     total_complemento = dados_lojas_selecionadas["Complemento"].sum()
     st.markdown(f'<div style="{value_style}">{total_complemento:,.2f}</div>', unsafe_allow_html=True)
 

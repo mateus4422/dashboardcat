@@ -24,14 +24,14 @@ st.write("Resumo Geral:")
 # Bloco de Total Faturamento ST
 st.subheader("Total Faturamento ST")
 total_faturamento_st = dados_loja["Faturamento ST"].sum()
-st.write(f"R$ {total_faturamento_st:.2f} (Valores exatos da planilha)")
+st.write(f"R$ {total_faturamento_st:,.2f}")
 
 # Bloco de Total Ressarcimento
 st.subheader("Total Ressarcimento")
 total_ressarcimento = dados_loja["Ressarcimento"].sum()
-st.write(f"R$ {total_ressarcimento:.2f} (Valores exatos da planilha)")
+st.write(f"R$ {total_ressarcimento:,.2f}")
 
 # Bloco de Média % Ressarcimento
 st.subheader("Média % Ressarcimento")
 media_percentual_ressarcimento = dados_loja["% Ressarcimento"].mean()
-st.write(f"{media_percentual_ressarcimento:.2%} (Valores exatos da planilha)")
+st.write(f"{media_percentual_ressarcimento:.2%}")

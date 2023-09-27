@@ -55,11 +55,14 @@ with total_block[3]:
     diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
     st.markdown(f'<div style="{value_style}">{formatar_valor(diferenca_ressarcimento_complemento)}</div>', unsafe_allow_html=True)
 
+# Calcular a média de ressarcimento
+media_percentual_ressarcimento = (dados_lojas_selecionadas["Ressarcimento"] - dados_lojas_selecionadas["Complemento"]) / dados_lojas_selecionadas["Faturamento ST"]
+
 # Bloco de Média % Ressarcimento
-with total_block[4]:
+with total_block5:
     st.subheader("Média % Ressarcimento")
-    media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean()
-    st.markdown(f'<div style="{value_style}">{media_percentual_ressarcimento:.2f}%</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="{value_style}">{media_percentual_ressarcimento.mean():.2%}</div>', unsafe_allow_html=True)
+
 
 
 # Gráfico de Barras (Faturamento ST)

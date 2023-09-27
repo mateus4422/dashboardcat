@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # Exibir o logotipo centralizado
-st.image("farma.png", use_column_width=True, caption="Logo", output_format="PNG", width=300)
+st.image("farma.png", use_column_width=True, caption="", output_format="PNG", width=100)
 
 # Adicionar linhas separadoras sublinhadas
 st.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)

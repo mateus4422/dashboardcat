@@ -6,17 +6,17 @@ st.image("farma.png", use_column_width=False, width=300)
 
 # Carregar os dados do Excel
 url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSulTerCVzXwOlraQucdzZsvxg-XGDZPA9xAXiMpFkQJ7GlfisoPoWzh3MrJEKCQPZYnDer7Cd0u5qE/pub?output=xlsx"
-df = pd.read_excel(url, usecols=[1, 2, 3, 4, 5, 6, 7, 8], skiprows=1)  # Ignorar a primeira linha (cabeçalho)
+df = pd.read_excel(url, usecols=[1, 2, 3, 4, 5, 6, 7, 8])  # Lê todas as linhas
 
 # Renomear as colunas
 df.columns = ["Período Inicial", "Período Final", "Loja", "CNPJ", "Faturamento ST", "Ressarcimento", "% Ressarcimento", "Status"]
 
 # Filtro de Lojas
 lojas = df["Loja"].unique()
-lojas_selecionadas = st.multiselect("Selecione as lojas:", lojas)
+lojas_selecionadas = st.multiselect("Selecione as lojas:", lojas, default=lojas)
 
 # Filtrar dados das lojas selecionadas
-dados_lojas_selecionadas = df[df["Loja"].isin(lojas_selecionadas)] if lojas_selecionadas else df
+dados_lojas_selecionadas = df[df["Loja"].isin(lojas_selecionadas)]
 
 # Resumo Geral
 st.write("Resumo Geral:")

@@ -85,4 +85,4 @@ st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Complemento"], use_cont
 
 # Gráfico de Barras (Diferença Ressarcimento - Complemento)
 st.subheader("Gráfico de Barras (Diferença Ressarcimento - Complemento)")
-st.bar_chart(diferenca_ressarcimento_complemento, use_container_width=True)
+st.bar_chart([diferenca_ressarcimento_complemento], use_container_width=True)

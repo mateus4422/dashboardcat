@@ -27,6 +27,10 @@ total_block1, total_block2, total_block3, total_block4, total_block5 = st.column
 # Estilo para centralizar e formatar os valores
 value_style = "display: flex; justify-content: center; align-items: center; text-align: center; border: 2px solid #FF6400; padding: 10px; font-size: 20px;"
 
+# Função para inverter ponto e vírgula
+def inverter_pontuacao(valor):
+    return valor.replace('.', '###').replace(',', '.').replace('###', ',')
+
 # Bloco de Faturamento ST
 with total_block1:
     st.subheader("Faturamento ST")
@@ -57,7 +61,6 @@ with total_block5:
     media_percentual_ressarcimento = (dados_lojas_selecionadas["Ressarcimento"] - dados_lojas_selecionadas["Complemento"]) / dados_lojas_selecionadas["Faturamento ST"]
     media_percentual_ressarcimento = media_percentual_ressarcimento.mean()
     st.markdown(f'<div style="{value_style}">{media_percentual_ressarcimento:.2%}</div>', unsafe_allow_html=True)
-
 
 # Gráfico de Barras (Faturamento ST)
 st.subheader("Gráfico de Barras (Faturamento ST)")

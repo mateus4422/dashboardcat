@@ -44,10 +44,6 @@ st.subheader("Média % Ressarcimento")
 media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean()
 st.write(f"{media_percentual_ressarcimento:.2%}")
 
-# Bloco de Média Ressarcimento (calculado)
-st.subheader("Média Ressarcimento (calculado)")
-media_ressarcimento_calculado = dados_lojas_selecionadas["Media Ressarcimento"].mean()
-st.write(f"{media_ressarcimento_calculado:.2f}%")
 
 # Gráfico de barras verticais para comparar Faturamento e Ressarcimento das Lojas selecionadas
 fig = px.bar(dados_lojas_selecionadas, x="Loja", y=["Faturamento ST", "Ressarcimento"],

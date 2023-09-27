@@ -18,12 +18,13 @@ def determinar_periodo(data):
 # Adiciona a coluna "Período" com base na data
 df["Período"] = df["Periodo Inicial"].apply(determinar_periodo)
 
-# Limpa os caracteres não numéricos e converte para números
+
+d# Limpa os caracteres não numéricos e converte para números
 def limpar_valor(valor):
     if isinstance(valor, float):
         return valor
     
-    valor_limpo = valor.replace("R$", "").replace(".", "").replace(",", "").strip()
+    valor_limpo = valor.replace("R$", "").replace(".", "").replace(",", "").replace("%", "").strip()
     return float(valor_limpo)
 
 # Converte os valores de "Faturamento ST" para números

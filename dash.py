@@ -1,31 +1,74 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
+import matplotlib.pyplot as plt
 
 # Carrega os dados do Excel online
 url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSulTerCVzXwOlraQucdzZsvxg-XGDZPA9xAXiMpFkQJ7GlfisoPoWzh3MrJEKCQPZYnDer7Cd0u5qE/pub?output=csv"
 df = pd.read_csv(url)
 
+# Define a função para determinar o período (P1 ou P2) com base na data
+def determinar_periodo(data):
+    if "01/09/2019" <= data <= "31/10/2020":
+        return "P2"
+    elif "01/05/2018" <= data <= "30/09/2019":
+        return "P1"
+    else:
+        return ""
+
+# Adiciona a coluna "Período" com base na data
+df["Período"] = df["Periodo Inicial"].apply(determinar_periodo)
+
 # Título do dashboard
 st.title("Dashboard de Análise de Lojas")
 
-# Filtro de Loja
-loja_filtrada = st.selectbox("Selecione a Loja:", df["Loja"].unique())
+# Filtro de Lojas (CheckBox)
+lojas = st.multiselect("Selecione as Lojas:", df["Loja"].unique())
 
-# Filtro de Período Inicial
-periodo_inicial_filtrado = st.selectbox("Selecione o Período Inicial:", df["Período Inicial"].unique())
+# Filtro Geral
+filtro_geral = st.checkbox("Filtro Geral")
 
-# Filtra os dados com base na loja e no período inicial selecionados
-df_filtrado = df[(df["Loja"] == loja_filtrada) & (df["Período Inicial"] == periodo_inicial_filtrado)]
+# Filtra os dados com base nas lojas selecionadas e no filtro geral
+if filtro_geral:
+    df_filtrado = df if not lojas else df[df["Loja"].isin(lojas)]
+else:
+    df_filtrado = df[df["Loja"].isin(lojas)]
 
-# Exibe os dados da loja selecionada
-st.write("Dados da Loja:", loja_filtrada)
-st.write(df_filtrado)
+# Exibe as informações das lojas selecionadas
+for loja in df_filtrado["Loja"].unique():
+    st.subheader(f"Loja: {loja}")
+    
+    # Dados em números
+    st.write("Faturamento ST:", df_filtrado[df_filtrado["Loja"] == loja]["Faturamento ST"].sum())
+    st.write("Ressarcimento:", df_filtrado[df_filtrado["Loja"] == loja]["Ressarcimento"].sum())
+    st.write("% Ressarcimento:", df_filtrado[df_filtrado["Loja"] == loja]["% Ressarcimento"].mean())
+    st.write("Status:", df_filtrado[df_filtrado["Loja"] == loja]["Status"].iloc[0])
 
-# Gráfico de Faturamento ST e Ressarcimento usando Plotly
-fig1 = px.bar(df_filtrado, x="Ano Mês", y=["Faturamento ST", "Ressarcimento"], title="Faturamento ST vs. Ressarcimento")
-st.plotly_chart(fig1)
+# Gráficos de comparação entre P1 e P2
+fig, ax = plt.subplots(3, 1, figsize=(8, 12))
+for i, col in enumerate(["Faturamento ST", "Ressarcimento", "% Ressarcimento"]):
+    df_p1 = df_filtrado[df_filtrado["Período"] == "P1"]
+    df_p2 = df_filtrado[df_filtrado["Período"] == "P2"]
+    
+    ax[i].bar(["P1", "P2"], [df_p1[col].sum(), df_p2[col].sum()])
+    ax[i].set_ylabel(col)
+    ax[i].set_title(f"Comparação entre P1 e P2 - {col}")
 
-# Gráfico de % Ressarcimento usando Plotly
-fig2 = px.line(df_filtrado, x="Ano Mês", y="% Ressarcimento", title="% Ressarcimento ao longo do tempo")
-st.plotly_chart(fig2)
+st.pyplot(fig)
+
+# Resumo geral
+if filtro_geral:
+    st.subheader("Resumo Geral")
+    
+    # Dados em números
+    st.write("Faturamento ST (Total):", df_filtrado["Faturamento ST"].sum())
+    st.write("Ressarcimento (Total):", df_filtrado["Ressarcimento"].sum())
+    st.write("% Ressarcimento (Total):", df_filtrado["% Ressarcimento"].mean())
+    
+    # Gráficos de comparação das lojas
+    fig2, ax2 = plt.subplots(2, 1, figsize=(8, 8))
+    for i, col in enumerate(["Faturamento ST", "Ressarcimento"]):
+        ax2[i].bar(df_filtrado["Loja"], df_filtrado[col])
+        ax2[i].set_ylabel(col)
+        ax2[i].set_title(f"Comparação entre Lojas - {col}")
+        ax2[i].tick_params(axis="x", rotation=45)
+    st.pyplot(fig2)

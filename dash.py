@@ -80,24 +80,23 @@ st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Ressarcimento"], use_co
 st.subheader("Gráfico de Barras (Complemento)")
 st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Complemento"], use_container_width=True)
 
-# Gráfico de Barras (Diferença Ressarcimento - Complemento)
-st.subheader("Gráfico de Barras (Diferença Ressarcimento - Complemento)")
+# Gráfico de Pizza (Diferença Ressarcimento - Complemento) por Loja
+st.subheader("Gráfico de Pizza (Diferença Ressarcimento - Complemento) por Loja")
 
 # Calcula a diferença entre Ressarcimento e Complemento para cada loja
 dados_lojas_selecionadas["Diferença Ressarcimento - Complemento"] = dados_lojas_selecionadas["Ressarcimento"] - dados_lojas_selecionadas["Complemento"]
 
-# Cria um gráfico de barras com a diferença usando plotly
-fig = px.bar(
-    dados_lojas_selecionadas,
-    x="Loja",
-    y="Diferença Ressarcimento - Complemento",
-    title="Diferença Ressarcimento - Complemento por Loja",
-    labels={"Loja": "Loja", "Diferença Ressarcimento - Complemento": "Diferença"},
-    color_discrete_map={"Ressarcimento": "blue", "Complemento": "red"},  # Cores personalizadas
-)
+# Cria um gráfico de pizza para cada loja usando plotly
+for loja in lojas_selecionadas:
+    loja_data = dados_lojas_selecionadas[dados_lojas_selecionadas["Loja"] == loja]
+    
+    fig = px.pie(
+        loja_data,
+        values="Diferença Ressarcimento - Complemento",
+        names=["Ressarcimento", "Complemento"],
+        title=f"Diferença Ressarcimento - Complemento para {loja}",
+        color_discrete_map={"Ressarcimento": "blue", "Complemento": "red"},  # Cores personalizadas
+    )
 
-# Personalizações adicionais, se necessário
-fig.update_traces(texttemplate='%{y:.2f}', textposition='outside')
-
-# Exibe o gráfico no Streamlit
-st.plotly_chart(fig, use_container_width=True)
+    # Exibe o gráfico no Streamlit
+    st.plotly_chart(fig, use_container_width=True)

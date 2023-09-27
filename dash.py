@@ -56,11 +56,6 @@ st.subheader("Ressarcimento - Complemento")
 diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
 st.write(f"R$ {diferenca_ressarcimento_complemento:,.2f}")
 
-# Bloco de Média % Ressarcimento
-st.subheader("Média % Ressarcimento")
-media_percentual_ressarcimento = (total_ressarcimento / total_faturamento_st) * 100
-st.write(f"{media_percentual_ressarcimento:.2f}%")
-
 # Gráfico de Barras (Faturamento ST)
 st.subheader("Gráfico de Barras (Faturamento ST)")
 st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Faturamento ST"], use_container_width=True)
@@ -68,3 +63,7 @@ st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Faturamento ST"], use_c
 # Gráfico de Barras (Ressarcimento)
 st.subheader("Gráfico de Barras (Ressarcimento)")
 st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Ressarcimento"], use_container_width=True)
+
+# Gráfico de Barras (Complemento)
+st.subheader("Gráfico de Barras (Complemento)")
+st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Complemento"], use_container_width=True)

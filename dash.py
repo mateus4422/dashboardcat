@@ -4,7 +4,7 @@ import plotly.express as px
 
 # Carregar os dados do Excel
 url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSulTerCVzXwOlraQucdzZsvxg-XGDZPA9xAXiMpFkQJ7GlfisoPoWzh3MrJEKCQPZYnDer7Cd0u5qE/pub?output=xlsx"
-df = pd.read_excel(url, usecols=[1, 2, 3, 4, 5, 6, 7, 8], skiprows=0)  # Agora começa da primeira linha (skiprows=0)
+df = pd.read_excel(url, usecols=[1, 2, 3, 4, 5, 6, 7, 8], skiprows=0)  # Começa da primeira linha (skiprows=0)
 
 # Renomear as colunas
 df.columns = ["Período Inicial", "Período Final", "Loja", "CNPJ", "Faturamento ST", "Ressarcimento", "% Ressarcimento", "Status"]
@@ -41,10 +41,22 @@ st.subheader("Média % Ressarcimento")
 media_percentual_ressarcimento = dados_loja["% Ressarcimento"].mean()
 st.write(f"{media_percentual_ressarcimento:.2%}")
 
-# Gráfico comparando faturamento e ressarcimento para P1 e P2
-fig = px.scatter(
-    dados_loja, x="Faturamento ST", y="Ressarcimento", color="P1_P2",
-    labels={"Faturamento ST": "Faturamento ST (R$)", "Ressarcimento": "Ressarcimento (R$)"},
-    title="Comparação de Faturamento e Ressarcimento (P1 vs. P2)"
+# Gráfico de barras para Faturamento das Lojas
+fig_faturamento = px.bar(
+    dados_loja, x="Loja", y="Faturamento ST",
+    labels={"Loja": "Loja", "Faturamento ST": "Faturamento ST (R$)"},
+    title="Faturamento das Lojas"
 )
-st.plotly_chart(fig)
+st.plotly_chart(fig_faturamento)
+
+# Gráfico de barras para Ressarcimento das Lojas
+fig_ressarcimento = px.bar(
+    dados_loja, x="Loja", y="Ressarcimento",
+    labels={"Loja": "Loja", "Ressarcimento": "Ressarcimento (R$)"},
+    title="Ressarcimento das Lojas"
+)
+st.plotly_chart(fig_ressarcimento)
+
+# Exibir as lojas selecionadas
+if loja_selecionada != "Geral":
+    st.write(f"Loja Selecionada: {loja_selecionada}")

@@ -56,7 +56,7 @@ with total_block[2]:
 
 # Bloco de Diferença Ressarcimento - Complemento
 with total_block[3]:
-    st.subheader("Diferença Ressarcimento - Complemento")
+    st.subheader("Ressarcimento - Complemento")
     diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
     diferenca_ressarcimento_complemento_formatted = inverter_pontuacao(f"R$ {diferenca_ressarcimento_complemento:.2f}")
     st.markdown(f'<div style="{value_style}">{diferenca_ressarcimento_complemento_formatted}</div>', unsafe_allow_html=True)

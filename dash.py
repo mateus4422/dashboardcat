@@ -24,7 +24,7 @@ dados_lojas_selecionadas = df[df["Loja"].isin(lojas_selecionadas)]
 # Organizar os blocos de total em uma grade
 total_container = st.container()
 total_container.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
-total_block1, total_block2, total_block3, total_block4 = st.columns(4)
+total_block1, total_block2, total_block3, total_block4, total_block5 = st.columns(5)
 
 # Estilo para centralizar e formatar os valores
 value_style = "display: flex; justify-content: center; align-items: center; text-align: center; border: 2px solid #FF6400; padding: 10px; font-size: 20px;"
@@ -53,9 +53,10 @@ with total_block4:
     diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
     st.markdown(f'<div style="{value_style}">{diferenca_ressarcimento_complemento:,.2f}</div>', unsafe_allow_html=True)
 
-# Mostrar a média de ressarcimento no bloco de Diferença Ressarcimento - Complemento
+# Bloco de Média % Ressarcimento
 with total_block5:
     st.subheader("Média % Ressarcimento")
+    media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean()
     st.markdown(f'<div style="{value_style}">{media_percentual_ressarcimento:.2%}</div>', unsafe_allow_html=True)
 
 # Espaço em branco entre os blocos
@@ -75,6 +76,4 @@ st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Complemento"], use_cont
 
 # Gráfico de Barras (Diferença Ressarcimento - Complemento)
 st.subheader("Gráfico de Barras (Diferença Ressarcimento - Complemento)")
-st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Ressarcimento"] - dados_lojas_selecionadas.set_index("Loja")["Complemento"], use_container_width=True)
-
-
+st.bar_chart(diferenca_ressarcimento_complemento, use_container_width=True)

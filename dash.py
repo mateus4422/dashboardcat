@@ -25,7 +25,7 @@ total_container.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_h
 total_block = st.columns(5)
 
 # Estilo para centralizar e formatar os valores
-value_style = "display: flex; justify-content: center; align-items: center; text-align: center; border: 2px solid #FF6400; padding: 10px; font-size: 20px;"
+value_style = "display: flex; justify-content: center; align-items: center; text-align: center; border: 2px solid #FF6400; padding: 10px; font-size: 10px;"
 
 # Função para formatar o valor em "R$ 75.809.091,57"
 def formatar_valor(valor):

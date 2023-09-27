@@ -44,6 +44,7 @@ st.write(f"{media_percentual_ressarcimento:.2%}")
 # Gráfico de barras para Faturamento das Lojas
 fig_faturamento = px.bar(
     dados_loja, x="Loja", y="Faturamento ST",
+    color="Loja",  # Adiciona cores diferentes para cada loja
     labels={"Loja": "Loja", "Faturamento ST": "Faturamento ST (R$)"},
     title="Faturamento das Lojas"
 )
@@ -52,6 +53,7 @@ st.plotly_chart(fig_faturamento)
 # Gráfico de barras para Ressarcimento das Lojas
 fig_ressarcimento = px.bar(
     dados_loja, x="Loja", y="Ressarcimento",
+    color="Loja",  # Adiciona cores diferentes para cada loja
     labels={"Loja": "Loja", "Ressarcimento": "Ressarcimento (R$)"},
     title="Ressarcimento das Lojas"
 )
@@ -60,3 +62,8 @@ st.plotly_chart(fig_ressarcimento)
 # Exibir as lojas selecionadas
 if loja_selecionada != "Geral":
     st.write(f"Loja Selecionada: {loja_selecionada}")
+
+# Exibir valores completos de cada loja
+if loja_selecionada != "Geral":
+    st.write("Valores Completos da Loja:")
+    st.table(dados_loja)

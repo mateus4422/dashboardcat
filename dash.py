@@ -20,6 +20,9 @@ df["Período"] = df["Periodo Inicial"].apply(determinar_periodo)
 
 # Limpa os caracteres não numéricos e converte para números
 def limpar_valor(valor):
+    if isinstance(valor, float):
+        return valor
+    
     valor_limpo = valor.replace("R$", "").replace(".", "").replace(",", "").strip()
     return float(valor_limpo)
 

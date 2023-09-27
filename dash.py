@@ -13,6 +13,9 @@ df.columns = ["Período Inicial", "Período Final", "Loja", "CNPJ", "Faturamento
 df["P1_P2"] = "P1"  # Inicialmente, todas as linhas são definidas como P1
 df.loc[df["Período Inicial"] >= "2019-09-01", "P1_P2"] = "P2"  # Definir como P2 se a data inicial for posterior a 01/09/2019
 
+# Calcular a média de ressarcimento da seguinte maneira: (Ressarcimento - 100) / Faturamento
+df["Media Ressarcimento"] = ((df["Ressarcimento"] - 100) / df["Faturamento ST"]) * 100
+
 # Filtro de Lojas
 lojas = df["Loja"].unique()
 loja_selecionada = st.selectbox("Selecione uma loja:", ["Geral"] + list(lojas))
@@ -40,6 +43,11 @@ st.write(f"R$ {total_ressarcimento:,.2f}")
 st.subheader("Média % Ressarcimento")
 media_percentual_ressarcimento = dados_loja["% Ressarcimento"].mean()
 st.write(f"{media_percentual_ressarcimento:.2%}")
+
+# Bloco de Média Ressarcimento (calculado)
+st.subheader("Média Ressarcimento (calculado)")
+media_ressarcimento_calculado = dados_loja["Media Ressarcimento"].mean()
+st.write(f"{media_ressarcimento_calculado:.2f}%")
 
 # Gráfico de barras verticais para comparar Faturamento e Ressarcimento das Lojas
 fig = px.bar(dados_loja, x="Loja", y=["Faturamento ST", "Ressarcimento"],

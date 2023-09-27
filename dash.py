@@ -27,7 +27,7 @@ total_container.markdown('<hr style="border:0.5px solid #FF6400">', unsafe_allow
 total_block1, total_block2, total_block3, total_block4 = st.columns(4)
 
 # Estilo para centralizar e formatar os blocos
-block_style = "display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border: 0.5px solid #FF6400; padding: 10px; font-size: 20px;"
+block_style = "display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border: 0.5px solid #00000; padding: 10px; font-size: 20px;"
 
 # Bloco de Faturamento ST
 with total_block1:
@@ -51,6 +51,7 @@ with total_block3:
 with total_block4:
     st.subheader("Ressarcimento - Complemento")
     diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
+    st.markdown(f'<div style="{block_style}">{diferenca_ressarcimento_complemento:,.2f}</div>', unsafe_allow_html=True)
     
 
 # Mostrar a média de ressarcimento

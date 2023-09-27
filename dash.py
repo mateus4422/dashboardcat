@@ -50,6 +50,13 @@ with total_block4:
     diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
     st.write(f"R$ {diferenca_ressarcimento_complemento:,.2f}")
 
+# Bloco de Média % Ressarcimento
+with total_block4:
+    st.subheader("Média % Ressarcimento")
+    media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean()
+    st.write(f"{media_percentual_ressarcimento:.2%}")
+
+
 # Espaço em branco entre os blocos
 st.markdown('<hr style="border:2px solid #FF6400">', unsafe_allow_html=True)
 

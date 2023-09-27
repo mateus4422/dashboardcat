@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # Exibir o logotipo centralizado com tamanho 200x200
-st.image("farma.png", use_column_width=False, caption="Logo", output_format="PNG", width=200, align="center")
+st.image("farma.png", use_column_width=False, caption="Logo", output_format="PNG", width=200)
 
 
 # Carregar os dados do Excel

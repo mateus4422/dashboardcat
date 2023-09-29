@@ -18,32 +18,28 @@ def formatar_valor(valor):
 # Widget de seleção de status
 status_selecionado = st.selectbox("Selecione o Status:", df["Status"].unique())
 
-# Filtrar dados pelo status selecionado
-dados_status_selecionado = df[df["Status"] == status_selecionado]
+# Adicionar menu lateral para escolher entre "Prioridade" e "Geral"
+menu_selecionado = st.sidebar.radio("Selecione o Menu:", ["Prioridade", "Geral"])
 
 # Verifique se a coluna 'Prioridade' existe no DataFrame
-if "Prioridade" in dados_status_selecionado.columns:
-    # Adicionar menu lateral para escolher entre "Prioridade" e "Geral"
-    menu_selecionado = st.sidebar.radio("Selecione o Menu:", ["Prioridade", "Geral"])
-
-    # Filtro de Lojas
+if "Prioridade" in df.columns:
     if menu_selecionado == "Prioridade":
+        # Filtrar dados pelo status selecionado
+        dados_status_selecionado = df[df["Status"] == status_selecionado]
+        # Filtrar apenas as lojas com 'Prioridade' igual a 'Sim'
         lojas = dados_status_selecionado[dados_status_selecionado["Prioridade"] == "Sim"]["Loja"].unique()
     else:
-        lojas = dados_status_selecionado["Loja"].unique()
-
-    lojas_selecionadas = st.multiselect("Selecione as lojas:", ["Selecionar todos"] + lojas.tolist(), default="Selecionar todos", key="lojas", help="Escolha uma ou mais lojas")
-
-    # Filtrar dados das lojas selecionadas
-    if "Selecionar todos" not in lojas_selecionadas:
-        dados_lojas_selecionadas = dados_status_selecionado[dados_status_selecionado["Loja"].isin(lojas_selecionadas)]
-    else:
-        dados_lojas_selecionadas = dados_status_selecionado
+        lojas = df["Loja"].unique()
 else:
     st.warning("A coluna 'Prioridade' não está presente nos dados.")
 
-# Restante do seu código (blocos de total, gráficos, etc.)
+lojas_selecionadas = st.multiselect("Selecione as lojas:", ["Selecionar todos"] + lojas.tolist(), default="Selecionar todos", key="lojas", help="Escolha uma ou mais lojas")
 
+# Filtrar dados das lojas selecionadas
+if "Selecionar todos" not in lojas_selecionadas:
+    dados_lojas_selecionadas = dados_status_selecionado[dados_status_selecionado["Loja"].isin(lojas_selecionadas)]
+else:
+    dados_lojas_selecionadas = dados_status_selecionado if menu_selecionado == "Prioridade" else df
 
 # Organizar os blocos de total em uma grade
 total_container = st.container()
@@ -72,14 +68,14 @@ with total_block[2]:
 
 # Bloco de Diferença Ressarcimento - Complemento
 with total_block[3]:
-    st.subheader("Ressar - Compl")
+    st.subheader("Ressarcimento - Compl")
     diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
     st.markdown(f'<div style="{value_style}">{formatar_valor(diferenca_ressarcimento_complemento)}</div>', unsafe_allow_html=True)
 
 # Calculadora de Média % Ressarcimento apenas para "Em Desenvolvimento"
 if status_selecionado == "Em Desenvolvimento":
     with total_block[4]:
-        st.subheader("%Ressarcimento")
+        st.subheader("Média % Ressarcimento")
         
         if not dados_lojas_selecionadas.empty:
             media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean() * 100

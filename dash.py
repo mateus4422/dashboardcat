@@ -38,11 +38,36 @@ if status_selecionado != "Não Iniciado":
     def formatar_valor(valor):
         return f"R$ {valor:,.2f}".replace(".", ",")
 
+    # Bloco de Faturamento ST
+    with st.container():
+        st.subheader("Faturamento ST")
+        total_faturamento_st = dados_lojas_selecionadas["Faturamento ST"].sum()
+        st.markdown(f'<div style="{value_style}">{formatar_valor(total_faturamento_st)}</div>', unsafe_allow_html=True)
+
+    # Bloco de Ressarcimento
+    with st.container():
+        st.subheader("Ressarcimento")
+        total_ressarcimento = dados_lojas_selecionadas["Ressarcimento"].sum()
+        st.markdown(f'<div style="{value_style}">{formatar_valor(total_ressarcimento)}</div>', unsafe_allow_html=True)
+
+    # Bloco de Complemento
+    with st.container():
+        st.subheader("Complemento")
+        total_complemento = dados_lojas_selecionadas["Complemento"].sum()
+        st.markdown(f'<div style="{value_style}">{formatar_valor(total_complemento)}</div>', unsafe_allow_html=True)
+
+    # Bloco de Diferença Ressarcimento - Complemento
+    with st.container():
+        st.subheader("Ressarcimento - Complemento")
+        diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
+        st.markdown(f'<div style="{value_style}">{formatar_valor(diferenca_ressarcimento_complemento)}</div>', unsafe_allow_html=True)
+
     # Bloco de Média % Ressarcimento
-    st.subheader("Média % Ressarcimento")
-    nova_porcentagem = st.number_input("Nova Porcentagem (%)", min_value=0.0, max_value=100.0, value=media_percentual_ressarcimento / 100)
-    novo_ressarcimento = nova_porcentagem * dados_lojas_selecionadas["Faturamento ST"].sum() / 100
-    st.markdown(f'<div style="{value_style}">{formatar_valor(novo_ressarcimento)}</div>', unsafe_allow_html=True)
+    with st.container():
+        st.subheader("Média % Ressarcimento")
+        nova_porcentagem = st.number_input("Nova Porcentagem (%)", min_value=0.0, max_value=100.0, value=media_percentual_ressarcimento / 100)
+        novo_ressarcimento = nova_porcentagem * dados_lojas_selecionadas["Faturamento ST"].sum() / 100
+        st.markdown(f'<div style="{value_style}">{formatar_valor(novo_ressarcimento)}</div>', unsafe_allow_html=True)
 
 # Gráfico de Barras (Faturamento ST)
 st.subheader("Gráfico de Barras (Faturamento ST)")

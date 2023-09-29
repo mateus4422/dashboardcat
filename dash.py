@@ -77,10 +77,11 @@ with total_block[4]:
         # Widget de entrada para a porcentagem
         nova_porcentagem = st.number_input("Nova Porcentagem (%)", min_value=0.0, max_value=100.0, value=media_percentual_ressarcimento / 100)
 
-        # Calcular o novo valor de ressarcimento com base na nova porcentagem
-        if status_selecionado != "Não Iniciado":
-            novo_ressarcimento = total_faturamento_st * nova_porcentagem
-            st.markdown(f'<div style="{value_style}">Novo Ressarcimento: {formatar_valor(novo_ressarcimento)}</div>', unsafe_allow_html=True)
+# Calcular o novo valor de ressarcimento com base na nova porcentagem
+if status_selecionado != "Não Iniciado":
+    novo_ressarcimento = total_faturamento_st * nova_porcentagem
+    st.markdown(f'<div style="{value_style}">Novo Ressarcimento: {formatar_valor(novo_ressarcimento)}</div>', unsafe_allow_html=True)
+
 
 
 

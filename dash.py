@@ -72,7 +72,7 @@ with total_block[3]:
 # Calculadora de Média % Ressarcimento apenas para "Em Desenvolvimento"
 if status_selecionado == "Em Desenvolvimento":
     with total_block[4]:
-        st.subheader("Média % Ressarcimento")
+        st.subheader("%Ressarcimento")
         
         if not dados_lojas_selecionadas.empty:
             media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean() * 100

@@ -12,26 +12,19 @@ df = pd.read_excel(url, usecols=[1, 2, 3, 4, 5, 6, 7, 8, 9])  # Lê todas as col
 # Renomear as colunas
 df.columns = ["Período Inicial", "Período Final", "Loja", "CNPJ", "Faturamento ST", "Ressarcimento", "Complemento", "% Ressarcimento", "Status"]
 
-# Filtro de Status
+# Filtrar dados por status
 status = df["Status"].unique()
-status_selecionado = st.radio("Selecione o status:", status, help="Escolha um status")
+selected_status = st.radio("Selecione o Status:", status)
 
-# Filtrar dados pelo status selecionado
-dados_filtrados = df[df["Status"] == status_selecionado]
+# Filtrar os dados com base no status selecionado
+filtered_data = df[df["Status"] == selected_status]
 
-# Se não houver dados para o status selecionado, exibir uma mensagem informativa
-if dados_filtrados.empty:
-    st.warning(f"Nenhum dado encontrado para o status '{status_selecionado}'")
+# Verificar se há dados para o status selecionado
+if filtered_data.empty:
+    st.warning(f"Nenhum dado encontrado para o status '{selected_status}'.")
 else:
-    # Filtro de Lojas
-    lojas = dados_filtrados["Loja"].unique()
-    lojas_selecionadas = st.multiselect("Selecione as lojas:", lojas, default=lojas, key="lojas")
-
-    # Filtrar dados das lojas selecionadas
-    dados_lojas_selecionadas = dados_filtrados[dados_filtrados["Loja"].isin(lojas_selecionadas)]
-
-    # Filtrar coluna % Ressarcimento para conter apenas valores numéricos
-    dados_lojas_selecionadas["% Ressarcimento"] = pd.to_numeric(dados_lojas_selecionadas["% Ressarcimento"], errors="coerce")
+    # Restante do seu código para processar e exibir os dados
+    # Você pode usar filtered_data para continuar a análise dos dados
 
     # Organizar os blocos de total em uma grade
     total_container = st.container()
@@ -47,19 +40,19 @@ else:
     # Bloco de Faturamento ST
     with total_block[0]:
         st.subheader("Faturamento ST")
-        total_faturamento_st = dados_lojas_selecionadas["Faturamento ST"].sum()
+        total_faturamento_st = filtered_data["Faturamento ST"].sum()
         st.markdown(f'<div style="{value_style}">{formatar_valor(total_faturamento_st)}</div>', unsafe_allow_html=True)
 
     # Bloco de Ressarcimento
     with total_block[1]:
         st.subheader("Ressarcimento")
-        total_ressarcimento = dados_lojas_selecionadas["Ressarcimento"].sum()
+        total_ressarcimento = filtered_data["Ressarcimento"].sum()
         st.markdown(f'<div style="{value_style}">{formatar_valor(total_ressarcimento)}</div>', unsafe_allow_html=True)
 
     # Bloco de Complemento
     with total_block[2]:
         st.subheader("Complemento")
-        total_complemento = dados_lojas_selecionadas["Complemento"].sum()
+        total_complemento = filtered_data["Complemento"].sum()
         st.markdown(f'<div style="{value_style}">{formatar_valor(total_complemento)}</div>', unsafe_allow_html=True)
 
     # Bloco de Diferença Ressarcimento - Complemento
@@ -69,7 +62,7 @@ else:
         st.markdown(f'<div style="{value_style}">{formatar_valor(diferenca_ressarcimento_complemento)}</div>', unsafe_allow_html=True)
 
     # Média % Ressarcimento geral (multiplicada por 100)
-    media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean() * 100
+    media_percentual_ressarcimento = filtered_data["% Ressarcimento"].mean() * 100
 
     # Bloco de Média % Ressarcimento
     with total_block[4]:
@@ -78,12 +71,12 @@ else:
 
     # Gráfico de Barras (Faturamento ST)
     st.subheader("Gráfico de Barras (Faturamento ST)")
-    st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Faturamento ST"], use_container_width=True)
+    st.bar_chart(filtered_data.set_index("Loja")["Faturamento ST"], use_container_width=True)
 
     # Gráfico de Barras (Ressarcimento)
     st.subheader("Gráfico de Barras (Ressarcimento)")
-    st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Ressarcimento"], use_container_width=True)
+    st.bar_chart(filtered_data.set_index("Loja")["Ressarcimento"], use_container_width=True)
 
     # Gráfico de Barras (Complemento)
     st.subheader("Gráfico de Barras (Complemento)")
-    st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Complemento"], use_container_width=True)
+    st.bar_chart(filtered_data.set_index("Loja")["Complemento"], use_container_width=True)

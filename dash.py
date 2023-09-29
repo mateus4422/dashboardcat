@@ -18,20 +18,17 @@ def formatar_valor(valor):
 # Widget de seleção de status
 status_selecionado = st.selectbox("Selecione o Status:", df["Status"].unique())
 
+# Filtrar dados pelo status selecionado
+dados_status_selecionado = df[df["Status"] == status_selecionado]
+
 # Adicionar menu lateral para escolher entre "Prioridade" e "Geral"
 menu_selecionado = st.sidebar.radio("Selecione o Menu:", ["Prioridade", "Geral"])
 
-# Verifique se a coluna 'Prioridade' existe no DataFrame
-if "Prioridade" in df.columns:
-    if menu_selecionado == "Prioridade":
-        # Filtrar dados pelo status selecionado
-        dados_status_selecionado = df[df["Status"] == status_selecionado]
-        # Filtrar apenas as lojas com 'Prioridade' igual a 'Sim'
-        lojas = dados_status_selecionado[dados_status_selecionado["Prioridade"] == "Sim"]["Loja"].unique()
-    else:
-        lojas = df["Loja"].unique()
+# Filtro de Lojas
+if menu_selecionado == "Prioridade":
+    lojas = dados_status_selecionado[dados_status_selecionado["Prioridade"] == "Sim"]["Loja"].unique()
 else:
-    st.warning("A coluna 'Prioridade' não está presente nos dados.")
+    lojas = dados_status_selecionado["Loja"].unique()
 
 lojas_selecionadas = st.multiselect("Selecione as lojas:", ["Selecionar todos"] + lojas.tolist(), default="Selecionar todos", key="lojas", help="Escolha uma ou mais lojas")
 
@@ -39,7 +36,7 @@ lojas_selecionadas = st.multiselect("Selecione as lojas:", ["Selecionar todos"] 
 if "Selecionar todos" not in lojas_selecionadas:
     dados_lojas_selecionadas = dados_status_selecionado[dados_status_selecionado["Loja"].isin(lojas_selecionadas)]
 else:
-    dados_lojas_selecionadas = dados_status_selecionado if menu_selecionado == "Prioridade" else df
+    dados_lojas_selecionadas = dados_status_selecionado
 
 # Organizar os blocos de total em uma grade
 total_container = st.container()

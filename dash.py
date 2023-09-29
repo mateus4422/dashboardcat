@@ -66,7 +66,19 @@ with total_block[3]:
 if status_selecionado == "Em Desenvolvimento":
     with total_block[4]:
         st.subheader("Média % Ressarcimento")
-        st.write("Apenas nos Status 'Em Desenvolvimento'")
+        
+        if not dados_lojas_selecionadas.empty:
+            media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean() * 100
+            st.markdown(f'<div style="{value_style}">{media_percentual_ressarcimento:.1f}%</div>', unsafe_allow_html=True)
+
+            # Widget de entrada para a porcentagem
+            nova_porcentagem = st.number_input("Nova Porcentagem (%)", min_value=0.0, max_value=100.0, value=media_percentual_ressarcimento)
+            
+            # Calcular o novo valor de ressarcimento com base na nova porcentagem
+            novo_ressarcimento = total_faturamento_st * (nova_porcentagem / 100)
+            st.markdown(f'<div style="{value_style}">Novo Ressarcimento: {formatar_valor(novo_ressarcimento)}</div>', unsafe_allow_html=True)
+        else:
+            st.write("Apenas nos Status 'Em Desenvolvimento'")
 else:
     with total_block[4]:
         st.subheader("Média % Ressarcimento")

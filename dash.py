@@ -34,6 +34,10 @@ if status_selecionado != "Não Iniciado":
     # Definir o estilo para os valores
     value_style = "display: flex; justify-content: center; align-items: center; text-align: center; border: 2px solid #FF6400; padding: 10px; font-size: 20px;"
 
+    # Função para formatar o valor em "R$ 75.809.091,57"
+    def formatar_valor(valor):
+        return f"R$ {valor:,.2f}".replace(".", ",")
+
     # Bloco de Média % Ressarcimento
     st.subheader("Média % Ressarcimento")
     nova_porcentagem = st.number_input("Nova Porcentagem (%)", min_value=0.0, max_value=100.0, value=media_percentual_ressarcimento / 100)

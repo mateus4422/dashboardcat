@@ -63,6 +63,11 @@ with total_block[2]:
     total_complemento = dados_lojas_selecionadas["Complemento"].sum()
     st.markdown(f'<div style="{value_style}">{formatar_valor(total_complemento)}</div>', unsafe_allow_html=True)
 
+# Bloco de Diferença Ressarcimento - Complemento
+with total_block[3]:
+    st.subheader("Ressarcimento - Compl")
+    diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
+    st.markdown(f'<div style="{value_style}">{formatar_valor(diferenca_ressarcimento_complemento)}</div>', unsafe_allow_html=True)
 
 # Calculadora de Média % Ressarcimento apenas para "Em Desenvolvimento"
 if status_selecionado == "Em Desenvolvimento":

@@ -12,70 +12,26 @@ df = pd.read_excel(url, usecols=[1, 2, 3, 4, 5, 6, 7, 8, 9])  # Lê todas as col
 # Renomear as colunas
 df.columns = ["Período Inicial", "Período Final", "Loja", "CNPJ", "Faturamento ST", "Ressarcimento", "Complemento", "% Ressarcimento", "Status"]
 
-# Criar filtro de Status
-status = df["Status"].unique()
-status_selecionado = st.selectbox("Selecione o Status:", status)
-
 # Filtro de Lojas
-lojas = df["Loja"].unique()
-# Adicione a opção "Selecionar Todos" à lista de lojas
-lojas = ["Selecionar Todos"] + lojas.tolist()
-
+lojas = ["Selecionar Todos"] + df["Loja"].unique().tolist()
 lojas_selecionadas = st.multiselect("Selecione as lojas:", lojas, default=lojas, key="lojas", help="Escolha uma ou mais lojas")
 
-# Verifique se "Selecionar Todos" está selecionado
-selecionar_todos = "Selecionar Todos" in lojas_selecionadas
-
 # Filtrar dados das lojas selecionadas
-if selecionar_todos:
-    dados_lojas_selecionadas = df[df["Status"] == status_selecionado]  # Se "Selecionar Todos" estiver selecionado, exibe todos os dados
+if "Selecionar Todos" not in lojas_selecionadas:
+    dados_lojas_selecionadas = df[df["Loja"].isin(lojas_selecionadas)]
 else:
-    dados_lojas_selecionadas = df[(df["Status"] == status_selecionado) & (df["Loja"].isin(lojas_selecionadas[1:]))]  # Exclua "Selecionar Todos" dos dados selecionados
+    dados_lojas_selecionadas = df  # Mostrar todos os dados
 
-# Resto do código...
+# Verifica se o status é diferente de "Não Iniciado" para exibir a calculadora
+if "Não Iniciado" not in lojas_selecionadas:
+    # Média % Ressarcimento geral (multiplicada por 100)
+    media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean() * 100
 
-# Organizar os blocos de total em uma grade
-total_container = st.container()
-total_block = st.columns(5)
-
-# Estilo para centralizar e formatar os valores
-value_style = "display: flex; justify-content: center; align-items: center; text-align: center; border: 2px solid #FF6400; padding: 10px; font-size: 20px;"
-
-# Função para formatar o valor em "R$ 75.809.091,57"
-def formatar_valor(valor):
-    return f"R$ {valor:,.2f}".replace(".", ",")
-
-# Bloco de Faturamento ST
-with total_block[0]:
-    st.subheader("Faturamento ST")
-    total_faturamento_st = dados_lojas_selecionadas["Faturamento ST"].sum()
-    st.markdown(f'<div style="{value_style}">{formatar_valor(total_faturamento_st)}</div>', unsafe_allow_html=True)
-
-# Bloco de Ressarcimento
-with total_block[1]:
-    st.subheader("Ressarcimento")
-    total_ressarcimento = dados_lojas_selecionadas["Ressarcimento"].sum()
-    st.markdown(f'<div style="{value_style}">{formatar_valor(total_ressarcimento)}</div>', unsafe_allow_html=True)
-
-# Bloco de Complemento
-with total_block[2]:
-    st.subheader("Complemento")
-    total_complemento = dados_lojas_selecionadas["Complemento"].sum()
-    st.markdown(f'<div style="{value_style}">{formatar_valor(total_complemento)}</div>', unsafe_allow_html=True)
-
-# Bloco de Diferença Ressarcimento - Complemento
-with total_block[3]:
-    st.subheader("Ressarcimento - Compl")
-    diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
-    st.markdown(f'<div style="{value_style}">{formatar_valor(diferenca_ressarcimento_complemento)}</div>', unsafe_allow_html=True)
-
-# Média % Ressarcimento geral (multiplicada por 100)
-media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean() * 100
-
-# Bloco de Média % Ressarcimento
-with total_block[4]:
+    # Bloco de Média % Ressarcimento
     st.subheader("Média % Ressarcimento")
-    st.markdown(f'<div style="{value_style}">{media_percentual_ressarcimento:.1f}%</div>', unsafe_allow_html=True)
+    nova_porcentagem = st.number_input("Nova Porcentagem (%)", min_value=0.0, max_value=100.0, value=media_percentual_ressarcimento / 100)
+    novo_ressarcimento = nova_porcentagem * dados_lojas_selecionadas["Faturamento ST"].sum() / 100
+    st.markdown(f'<div style="{value_style}">{formatar_valor(novo_ressarcimento)}</div>', unsafe_allow_html=True)
 
 # Gráfico de Barras (Faturamento ST)
 st.subheader("Gráfico de Barras (Faturamento ST)")
@@ -88,10 +44,3 @@ st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Ressarcimento"], use_co
 # Gráfico de Barras (Complemento)
 st.subheader("Gráfico de Barras (Complemento)")
 st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Complemento"], use_container_width=True)
-
-# Calculadora de Ressarcimento
-if status_selecionado != "Não Iniciado":
-    nova_porcentagem = st.number_input("Nova Porcentagem (%)", min_value=0.0, max_value=100.0, value=media_percentual_ressarcimento / 100)
-    novo_ressarcimento = total_faturamento_st * (nova_porcentagem / 100)
-    st.markdown(f"Novo Ressarcimento: {formatar_valor(novo_ressarcimento)}")
-

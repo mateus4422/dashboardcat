@@ -65,10 +65,16 @@ else:
     # Média % Ressarcimento geral (multiplicada por 100)
     media_percentual_ressarcimento = filtered_data["% Ressarcimento"].mean() * 100
 
-    # Bloco de Média % Ressarcimento
-with total_block[4]:
+  # Bloco de Média % Ressarcimento
+    with total_block[4]:
     st.subheader("Média % Ressarcimento")
-    media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean() * 100
+
+    # Certifique-se de que a variável dados_lojas_selecionadas foi definida
+    if "dados_lojas_selecionadas" in locals():
+        media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean() * 100
+    else:
+        media_percentual_ressarcimento = 0.0
+
     st.markdown(f'<div style="{value_style}">{media_percentual_ressarcimento:.1f}%</div>', unsafe_allow_html=True)
 
     # Widget de entrada para a porcentagem
@@ -77,6 +83,7 @@ with total_block[4]:
     # Calcular o novo valor de ressarcimento com base na nova porcentagem
     novo_ressarcimento = total_faturamento_st * nova_porcentagem
     st.markdown(f'<div style="{value_style}">Novo Ressarcimento: {formatar_valor(novo_ressarcimento)}</div>', unsafe_allow_html=True)
+
 
 
     # Gráfico de Barras (Faturamento ST)

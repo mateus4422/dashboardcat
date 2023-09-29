@@ -88,7 +88,7 @@ if status_selecionado == "Em Desenvolvimento":
             st.write("Apenas nos Status 'Em Desenvolvimento'")
 else:
     with total_block[4]:
-        st.subheader("Média % Ressarcimento")
+        st.subheader("%Ressarcimento")
         st.write("Apenas nos outros Status")
 
 # Gráfico de Barras (Faturamento ST)

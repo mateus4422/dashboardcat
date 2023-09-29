@@ -16,10 +16,14 @@ def formatar_valor(valor):
     return f"R$ {valor:,.2f}".replace(".", ",")
 
 # Widget de seleção de Razão Social
-razao_social_selecionada = st.selectbox("Selecione a Razão Social:", df["Razão Social"].unique())
+razao_social_opcoes = ["Selecionar todos"] + list(df["Razão Social"].unique())
+razao_social_selecionada = st.selectbox("Selecione a Razão Social:", razao_social_opcoes)
 
 # Filtrar dados pela Razão Social selecionada
-dados_razao_social_selecionada = df[df["Razão Social"] == razao_social_selecionada]
+if razao_social_selecionada == "Selecionar todos":
+    dados_razao_social_selecionada = df
+else:
+    dados_razao_social_selecionada = df[df["Razão Social"] == razao_social_selecionada]
 
 # Widget de seleção de status
 status_selecionado = st.selectbox("Selecione o Status:", dados_razao_social_selecionada["Status"].unique())

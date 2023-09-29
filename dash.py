@@ -22,11 +22,20 @@ status_selecionado = st.selectbox("Selecione o Status:", df["Status"].unique())
 dados_status_selecionado = df[df["Status"] == status_selecionado]
 
 # Filtro de Lojas
-lojas = dados_status_selecionado["Loja"].unique()
+lojas = df["Loja"].unique()
+# Adicione a opção "Selecionar Todos" à lista de lojas
+lojas = ["Selecionar Todos"] + lojas
 lojas_selecionadas = st.multiselect("Selecione as lojas:", lojas, default=lojas, key="lojas", help="Escolha uma ou mais lojas")
 
+# Verifique se "Selecionar Todos" está selecionado
+selecionar_todos = "Selecionar Todos" in lojas_selecionadas
+
 # Filtrar dados das lojas selecionadas
-dados_lojas_selecionadas = dados_status_selecionado[dados_status_selecionado["Loja"].isin(lojas_selecionadas)]
+if selecionar_todos:
+    dados_lojas_selecionadas = df  # Se "Selecionar Todos" estiver selecionado, exibe todos os dados
+else:
+    dados_lojas_selecionadas = df[df["Loja"].isin(lojas_selecionadas[1:])]  # Exclua "Selecionar Todos" dos dados selecionados
+
 
 # Organizar os blocos de total em uma grade
 total_container = st.container()

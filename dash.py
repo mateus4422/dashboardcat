@@ -12,6 +12,10 @@ df = pd.read_excel(url, usecols=[1, 2, 3, 4, 5, 6, 7, 8, 9])  # Lê todas as col
 # Renomear as colunas
 df.columns = ["Período Inicial", "Período Final", "Loja", "CNPJ", "Faturamento ST", "Ressarcimento", "Complemento", "% Ressarcimento", "Status"]
 
+# Filtro de Lojas
+lojas = df["Loja"].unique()
+lojas_selecionadas = st.multiselect("Selecione as lojas:", lojas, default=lojas, key="lojas", help="Escolha uma ou mais lojas")
+
 # Filtrar dados por status
 status = df["Status"].unique()
 selected_status = st.radio("Selecione o Status:", status)
@@ -23,9 +27,6 @@ filtered_data = df[df["Status"] == selected_status]
 if filtered_data.empty:
     st.warning(f"Nenhum dado encontrado para o status '{selected_status}'.")
 else:
-    # Restante do seu código para processar e exibir os dados
-    # Você pode usar filtered_data para continuar a análise dos dados
-
     # Organizar os blocos de total em uma grade
     total_container = st.container()
     total_block = st.columns(5)

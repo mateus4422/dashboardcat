@@ -23,10 +23,13 @@ dados_status_selecionado = df[df["Status"] == status_selecionado]
 
 # Filtro de Lojas
 lojas = dados_status_selecionado["Loja"].unique()
-lojas_selecionadas = st.multiselect("Selecione as lojas:", lojas, default=lojas, key="lojas", help="Escolha uma ou mais lojas")
+lojas_selecionadas = st.multiselect("Selecione as lojas:", ["Selecionar todos"] + lojas.tolist(), default="Selecionar todos", key="lojas", help="Escolha uma ou mais lojas")
 
 # Filtrar dados das lojas selecionadas
-dados_lojas_selecionadas = dados_status_selecionado[dados_status_selecionado["Loja"].isin(lojas_selecionadas)]
+if "Selecionar todos" not in lojas_selecionadas:
+    dados_lojas_selecionadas = dados_status_selecionado[dados_status_selecionado["Loja"].isin(lojas_selecionadas)]
+else:
+    dados_lojas_selecionadas = dados_status_selecionado
 
 # Organizar os blocos de total em uma grade
 total_container = st.container()
@@ -59,31 +62,15 @@ with total_block[3]:
     diferenca_ressarcimento_complemento = total_ressarcimento - total_complemento
     st.markdown(f'<div style="{value_style}">{formatar_valor(diferenca_ressarcimento_complemento)}</div>', unsafe_allow_html=True)
 
-# Bloco de Média % Ressarcimento
-with total_block[4]:
-    st.subheader("Média % Ressarcimento")
-
-    if status_selecionado == "Não Iniciado":
+# Calculadora de Média % Ressarcimento apenas para "Em Desenvolvimento"
+if status_selecionado == "Em Desenvolvimento":
+    with total_block[4]:
+        st.subheader("Média % Ressarcimento")
+        st.write("Apenas nos Status 'Em Desenvolvimento'")
+else:
+    with total_block[4]:
+        st.subheader("Média % Ressarcimento")
         st.write("Apenas nos outros Status")
-    else:
-        # Certifique-se de que a variável dados_lojas_selecionadas foi definida
-        if "dados_lojas_selecionadas" in locals():
-            media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean() * 100
-        else:
-            media_percentual_ressarcimento = 0.0
-
-        st.markdown(f'<div style="{value_style}">{media_percentual_ressarcimento:.1f}%</div>', unsafe_allow_html=True)
-
-        # Widget de entrada para a porcentagem
-        nova_porcentagem = st.number_input("Nova Porcentagem (%)", min_value=0.0, max_value=100.0, value=media_percentual_ressarcimento / 100)
-
-# Calcular o novo valor de ressarcimento com base na nova porcentagem
-if status_selecionado != "Não Iniciado":
-    novo_ressarcimento = total_faturamento_st * nova_porcentagem
-    st.markdown(f'<div style="{value_style}">Novo Ressarcimento: {formatar_valor(novo_ressarcimento)}</div>', unsafe_allow_html=True)
-
-
-
 
 # Gráfico de Barras (Faturamento ST)
 st.subheader("Gráfico de Barras (Faturamento ST)")

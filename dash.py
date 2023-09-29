@@ -14,7 +14,8 @@ df.columns = ["Período Inicial", "Período Final", "Loja", "CNPJ", "Faturamento
 
 # Filtro de Lojas
 lojas = df["Loja"].unique()
-lojas_selecionadas = st.multiselect("Selecione as lojas:", lojas, default=lojas, key="lojas", help="Escolha uma ou mais lojas")
+# Inicialmente, não há necessidade de definir um valor padrão para o multiselect
+lojas_selecionadas = st.multiselect("Selecione as lojas:", lojas, key="lojas", help="Escolha uma ou mais lojas")
 
 # Filtrar dados por status
 status = df["Status"].unique()

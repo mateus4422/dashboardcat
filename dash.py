@@ -12,20 +12,27 @@ df = pd.read_excel(url, usecols=[1, 2, 3, 4, 5, 6, 7, 8, 9])  # Lê todas as col
 # Renomear as colunas
 df.columns = ["Período Inicial", "Período Final", "Loja", "CNPJ", "Faturamento ST", "Ressarcimento", "Complemento", "% Ressarcimento", "Status"]
 
+# Filtro de Status
+status = df["Status"].unique()
+status_selecionado = st.selectbox("Selecione o status:", status)
+
 # Filtro de Lojas
 lojas = ["Selecionar Todos"] + df["Loja"].unique().tolist()
 lojas_selecionadas = st.multiselect("Selecione as lojas:", lojas, default=lojas, key="lojas", help="Escolha uma ou mais lojas")
 
 # Filtrar dados das lojas selecionadas
 if "Selecionar Todos" not in lojas_selecionadas:
-    dados_lojas_selecionadas = df[df["Loja"].isin(lojas_selecionadas)]
+    dados_lojas_selecionadas = df[(df["Status"] == status_selecionado) & df["Loja"].isin(lojas_selecionadas)]
 else:
-    dados_lojas_selecionadas = df  # Mostrar todos os dados
+    dados_lojas_selecionadas = df[df["Status"] == status_selecionado]
 
 # Verifica se o status é diferente de "Não Iniciado" para exibir a calculadora
-if "Não Iniciado" not in lojas_selecionadas:
+if status_selecionado != "Não Iniciado":
     # Média % Ressarcimento geral (multiplicada por 100)
     media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean() * 100
+
+    # Definir o estilo para os valores
+    value_style = "display: flex; justify-content: center; align-items: center; text-align: center; border: 2px solid #FF6400; padding: 10px; font-size: 20px;"
 
     # Bloco de Média % Ressarcimento
     st.subheader("Média % Ressarcimento")

@@ -25,7 +25,7 @@ dados_status_selecionado = df[df["Status"] == status_selecionado]
 menu_selecionado = st.sidebar.radio("Selecione o Menu:", ["Prioridade", "Geral"])
 
 # Filtro de Lojas
-if menu_selecionado == "Prioridade de Lojas":
+if menu_selecionado == "Prioridade":
     lojas = dados_status_selecionado[dados_status_selecionado["Prioridade"] == "Sim"]["Loja"].unique()
 else:
     lojas = dados_status_selecionado["Loja"].unique()

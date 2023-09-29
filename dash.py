@@ -6,20 +6,26 @@ st.image("farma.png", use_column_width=False, caption="", output_format="PNG", w
 
 # Carregar os dados do Excel
 url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSulTerCVzXwOlraQucdzZsvxg-XGDZPA9xAXiMpFkQJ7GlfisoPoWzh3MrJEKCQPZYnDer7Cd0u5qE/pub?output=xlsx"
-df = pd.read_excel(url, usecols=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10])  # Lê todas as colunas
+df = pd.read_excel(url, usecols=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])  # Lê todas as colunas
 
 # Renomear as colunas
-df.columns = ["Período Inicial", "Período Final", "Loja", "CNPJ", "Faturamento ST", "Ressarcimento", "Complemento", "% Ressarcimento", "Status", "Prioridade"]
+df.columns = ["Razão Social", "Período Inicial", "Período Final", "Loja", "CNPJ", "Faturamento ST", "Ressarcimento", "Complemento", "% Ressarcimento", "Status", "Prioridade"]
 
 # Função para formatar o valor em "R$ 75.809.091,57"
 def formatar_valor(valor):
     return f"R$ {valor:,.2f}".replace(".", ",")
 
+# Widget de seleção de Razão Social
+razao_social_selecionada = st.selectbox("Selecione a Razão Social:", df["Razão Social"].unique())
+
+# Filtrar dados pela Razão Social selecionada
+dados_razao_social_selecionada = df[df["Razão Social"] == razao_social_selecionada]
+
 # Widget de seleção de status
-status_selecionado = st.selectbox("Selecione o Status:", df["Status"].unique())
+status_selecionado = st.selectbox("Selecione o Status:", dados_razao_social_selecionada["Status"].unique())
 
 # Filtrar dados pelo status selecionado
-dados_status_selecionado = df[df["Status"] == status_selecionado]
+dados_status_selecionado = dados_razao_social_selecionada[dados_razao_social_selecionada["Status"] == status_selecionado]
 
 # Adicionar menu lateral para escolher entre "Prioridade" e "Geral"
 menu_selecionado = st.sidebar.radio("Selecione o Menu:", ["Prioridade", "Geral"])
@@ -72,7 +78,7 @@ with total_block[3]:
 # Calculadora de Média % Ressarcimento apenas para "Em Desenvolvimento"
 if status_selecionado == "Em Desenvolvimento":
     with total_block[4]:
-        st.subheader("%Ressarcimento")
+        st.subheader("Média % Ressarcimento")
         
         if not dados_lojas_selecionadas.empty:
             media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean() * 100

@@ -18,8 +18,15 @@ def formatar_valor(valor):
 # Widget de seleção de status
 status_selecionado = st.selectbox("Selecione o Status:", df["Status"].unique())
 
+# Checkbox para Lojas com Prioridade
+mostrar_lojas_com_prioridade = st.checkbox("Lojas com Prioridade")
+
 # Filtrar dados pelo status selecionado
 dados_status_selecionado = df[df["Status"] == status_selecionado]
+
+# Filtrar dados por lojas com prioridade, se a opção estiver marcada
+if mostrar_lojas_com_prioridade:
+    dados_status_selecionado = dados_status_selecionado[dados_status_selecionado["Prioridade"] == "Sim"]
 
 # Organizar os blocos de total em uma grade
 total_container = st.container()

@@ -19,7 +19,8 @@ status_selecionado = st.selectbox("Selecione o Status:", status)
 # Filtro de Lojas
 lojas = df["Loja"].unique()
 # Adicione a opção "Selecionar Todos" à lista de lojas
-lojas = ["Selecionar Todos"] + lojas
+lojas = ["Selecionar Todos"] + lojas.tolist()
+
 lojas_selecionadas = st.multiselect("Selecione as lojas:", lojas, default=lojas, key="lojas", help="Escolha uma ou mais lojas")
 
 # Verifique se "Selecionar Todos" está selecionado

@@ -22,20 +22,11 @@ status_selecionado = st.selectbox("Selecione o Status:", df["Status"].unique())
 dados_status_selecionado = df[df["Status"] == status_selecionado]
 
 # Filtro de Lojas
-lojas = df["Loja"].unique()
-# Adicione a opção "Selecionar Todos" à lista de lojas
-lojas = ["Selecionar Todos"] + lojas
+lojas = dados_status_selecionado["Loja"].unique()
 lojas_selecionadas = st.multiselect("Selecione as lojas:", lojas, default=lojas, key="lojas", help="Escolha uma ou mais lojas")
 
-# Verifique se "Selecionar Todos" está selecionado
-selecionar_todos = "Selecionar Todos" in lojas_selecionadas
-
 # Filtrar dados das lojas selecionadas
-if selecionar_todos:
-    dados_lojas_selecionadas = df  # Se "Selecionar Todos" estiver selecionado, exibe todos os dados
-else:
-    dados_lojas_selecionadas = df[df["Loja"].isin(lojas_selecionadas[1:])]  # Exclua "Selecionar Todos" dos dados selecionados
-
+dados_lojas_selecionadas = dados_status_selecionado[dados_status_selecionado["Loja"].isin(lojas_selecionadas)]
 
 # Organizar os blocos de total em uma grade
 total_container = st.container()
@@ -86,12 +77,10 @@ with total_block[4]:
         # Widget de entrada para a porcentagem
         nova_porcentagem = st.number_input("Nova Porcentagem (%)", min_value=0.0, max_value=100.0, value=media_percentual_ressarcimento / 100)
 
-
 # Calcular o novo valor de ressarcimento com base na nova porcentagem
 if status_selecionado != "Não Iniciado":
     novo_ressarcimento = total_faturamento_st * nova_porcentagem
     st.markdown(f'<div style="{value_style}">Novo Ressarcimento: {formatar_valor(novo_ressarcimento)}</div>', unsafe_allow_html=True)
-
 
 
 

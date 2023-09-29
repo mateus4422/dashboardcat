@@ -6,10 +6,10 @@ st.image("farma.png", use_column_width=False, caption="", output_format="PNG", w
 
 # Carregar os dados do Excel
 url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSulTerCVzXwOlraQucdzZsvxg-XGDZPA9xAXiMpFkQJ7GlfisoPoWzh3MrJEKCQPZYnDer7Cd0u5qE/pub?output=xlsx"
-df = pd.read_excel(url, usecols=[1, 2, 3, 4, 5, 6, 7, 8, 9])  # Lê todas as colunas
+df = pd.read_excel(url, usecols=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10])  # Lê todas as colunas
 
 # Renomear as colunas
-df.columns = ["Período Inicial", "Período Final", "Loja", "CNPJ", "Faturamento ST", "Ressarcimento", "Complemento", "% Ressarcimento", "Status"]
+df.columns = ["Período Inicial", "Período Final", "Loja", "CNPJ", "Faturamento ST", "Ressarcimento", "Complemento", "% Ressarcimento", "Status", "Prioridade"]
 
 # Função para formatar o valor em "R$ 75.809.091,57"
 def formatar_valor(valor):
@@ -18,15 +18,25 @@ def formatar_valor(valor):
 # Widget de seleção de status
 status_selecionado = st.selectbox("Selecione o Status:", df["Status"].unique())
 
-# Checkbox para Lojas com Prioridade
-mostrar_lojas_com_prioridade = st.checkbox("Lojas com Prioridade")
-
 # Filtrar dados pelo status selecionado
 dados_status_selecionado = df[df["Status"] == status_selecionado]
 
-# Filtrar dados por lojas com prioridade, se a opção estiver marcada
-if mostrar_lojas_com_prioridade:
-    dados_status_selecionado = dados_status_selecionado[dados_status_selecionado["Prioridade"] == "Sim"]
+# Adicionar menu lateral para escolher entre "Prioridade" e "Geral"
+menu_selecionado = st.sidebar.radio("Selecione o Menu:", ["Prioridade", "Geral"])
+
+# Filtro de Lojas
+if menu_selecionado == "Prioridade":
+    lojas = dados_status_selecionado[dados_status_selecionado["Prioridade"] == "Sim"]["Loja"].unique()
+else:
+    lojas = dados_status_selecionado["Loja"].unique()
+
+lojas_selecionadas = st.multiselect("Selecione as lojas:", ["Selecionar todos"] + lojas.tolist(), default="Selecionar todos", key="lojas", help="Escolha uma ou mais lojas")
+
+# Filtrar dados das lojas selecionadas
+if "Selecionar todos" not in lojas_selecionadas:
+    dados_lojas_selecionadas = dados_status_selecionado[dados_status_selecionado["Loja"].isin(lojas_selecionadas)]
+else:
+    dados_lojas_selecionadas = dados_status_selecionado
 
 # Organizar os blocos de total em uma grade
 total_container = st.container()
@@ -38,19 +48,19 @@ value_style = "display: flex; justify-content: center; align-items: center; text
 # Bloco de Faturamento ST
 with total_block[0]:
     st.subheader("Faturamento ST")
-    total_faturamento_st = dados_status_selecionado["Faturamento ST"].sum()
+    total_faturamento_st = dados_lojas_selecionadas["Faturamento ST"].sum()
     st.markdown(f'<div style="{value_style}">{formatar_valor(total_faturamento_st)}</div>', unsafe_allow_html=True)
 
 # Bloco de Ressarcimento
 with total_block[1]:
     st.subheader("Ressarcimento")
-    total_ressarcimento = dados_status_selecionado["Ressarcimento"].sum()
+    total_ressarcimento = dados_lojas_selecionadas["Ressarcimento"].sum()
     st.markdown(f'<div style="{value_style}">{formatar_valor(total_ressarcimento)}</div>', unsafe_allow_html=True)
 
 # Bloco de Complemento
 with total_block[2]:
     st.subheader("Complemento")
-    total_complemento = dados_status_selecionado["Complemento"].sum()
+    total_complemento = dados_lojas_selecionadas["Complemento"].sum()
     st.markdown(f'<div style="{value_style}">{formatar_valor(total_complemento)}</div>', unsafe_allow_html=True)
 
 # Bloco de Diferença Ressarcimento - Complemento
@@ -64,8 +74,8 @@ if status_selecionado == "Em Desenvolvimento":
     with total_block[4]:
         st.subheader("Média % Ressarcimento")
         
-        if not dados_status_selecionado.empty:
-            media_percentual_ressarcimento = dados_status_selecionado["% Ressarcimento"].mean() * 100
+        if not dados_lojas_selecionadas.empty:
+            media_percentual_ressarcimento = dados_lojas_selecionadas["% Ressarcimento"].mean() * 100
             st.markdown(f'<div style="{value_style}">{media_percentual_ressarcimento:.1f}%</div>', unsafe_allow_html=True)
 
             # Widget de entrada para a porcentagem
@@ -83,12 +93,12 @@ else:
 
 # Gráfico de Barras (Faturamento ST)
 st.subheader("Gráfico de Barras (Faturamento ST)")
-st.bar_chart(dados_status_selecionado.set_index("Loja")["Faturamento ST"], use_container_width=True)
+st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Faturamento ST"], use_container_width=True)
 
 # Gráfico de Barras (Ressarcimento)
 st.subheader("Gráfico de Barras (Ressarcimento)")
-st.bar_chart(dados_status_selecionado.set_index("Loja")["Ressarcimento"], use_container_width=True)
+st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Ressarcimento"], use_container_width=True)
 
 # Gráfico de Barras (Complemento)
 st.subheader("Gráfico de Barras (Complemento)")
-st.bar_chart(dados_status_selecionado.set_index("Loja")["Complemento"], use_container_width=True)
+st.bar_chart(dados_lojas_selecionadas.set_index("Loja")["Complemento"], use_container_width=True)

@@ -5,7 +5,7 @@ import pandas as pd
 st.image("farma.png", use_column_width=False, caption="", output_format="PNG", width=200)
 
 # Carregar os dados do Excel
-url = "hhttps://docs.google.com/spreadsheets/d/e/2PACX-1vSulTerCVzXwOlraQucdzZsvxg-XGDZPA9xAXiMpFkQJ7GlfisoPoWzh3MrJEKCQPZYnDer7Cd0u5qE/pub?output=xlsx"
+url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSulTerCVzXwOlraQucdzZsvxg-XGDZPA9xAXiMpFkQJ7GlfisoPoWzh3MrJEKCQPZYnDer7Cd0u5qE/pub?output=xlsx"
 df = pd.read_excel(url, usecols=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])  # Lê todas as colunas
 
 # Renomear as colunas

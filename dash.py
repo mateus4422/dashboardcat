@@ -44,7 +44,10 @@ lojas_selecionadas = st.multiselect("Selecione as lojas:", ["Selecionar todos"] 
 
 # Filtrar dados das lojas selecionadas
 if "Selecionar todos" not in lojas_selecionadas:
-    dados_lojas_selecionadas = dados_status_selecionado[dados_status_selecionado["Loja"].isin(lojas_selecionadas)]
+    if menu_selecionado == "Prioridade":
+        dados_lojas_selecionadas = dados_status_selecionado[(dados_status_selecionado["Loja"].isin(lojas_selecionadas)) & (dados_status_selecionado["Prioridade"] == "Sim")]
+    else:
+        dados_lojas_selecionadas = dados_status_selecionado[dados_status_selecionado["Loja"].isin(lojas_selecionadas)]
 else:
     dados_lojas_selecionadas = dados_status_selecionado
 
